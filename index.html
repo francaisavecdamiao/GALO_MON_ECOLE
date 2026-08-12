@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>GALOLINGO — Sala de Aula</title>
+<title>GALOLINGO — ESCOLA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -344,7 +344,7 @@
 
 <script>
 /* =========================================================
-   DADOS DO JOGO — TEMA: SALA DE AULA
+   DADOS DO JOGO — TEMA: ESCOLA
    ========================================================= */
 
 /* NÍVEL 1 — Uma lacuna + escolha da tradução
@@ -369,8 +369,8 @@ const level1Data = [
   { frBlanked:"Sophie aime utiliser un surligneur [ 1 ] pour marquer les lignes importantes.",
     frFull:"Sophie aime utiliser un surligneur jaune pour marquer les lignes importantes.",
     blank:{ options:["jaune","faune","jeune"], correct:"jaune" },
-    transCorrect:"Sophie gosta de usar um marca-texto amarelo para destacar as linhas importantes.",
-    transWrong:["Sophie gosta de usar uma caneta amarela para destacar as linhas importantes.","Sophie gosta de usar um marca-texto azul para destacar as linhas importantes."] },
+    transCorrect:"Sophie gosta de usar um marca-texto amarelo para marcar as linhas importantes.",
+    transWrong:["Sophie gosta de usar uma caneta amarela para marcar as linhas importantes.","Sophie gosta de usar um marca-texto azul para marcar as linhas importantes."] },
   { frBlanked:"Pendant la récréation, les enfants vont jouer dans la [ 1 ].",
     frFull:"Pendant la récréation, les enfants vont jouer dans la cour.",
     blank:{ options:["cour","cours","court"], correct:"cour" },
@@ -627,7 +627,7 @@ function renderTopbar(){
   const bar = document.getElementById('topbar');
   const scoreTxt = formatScore(state.totalScore);
   let progressPct = 0;
-  let levelLabel = 'Aventura em Francês';
+  let levelLabel = 'GALOLINGO';
   if(state.screen==='game'){
     const completed = (state.level-1)*10 + state.qIndex;
     progressPct = Math.round((completed/30)*100);
@@ -657,8 +657,8 @@ function homeTemplate(){
   return `
     <div class="home-card">
       <div class="mascot">🐓</div>
-      <h1>Aventura em Francês</h1>
-      <p class="home-sub">Tema: sala de aula. Complete os 3 níveis e conquiste até <strong>100 pontos</strong>!</p>
+      <h1>GALOLINGO</h1>
+      <p class="home-sub">Tema: ESCOLA. Complete os 3 níveis e conquiste até <strong>100 pontos</strong>!</p>
       <div class="level-preview">
         <div class="level-chip"><span class="chip-num">1</span> Complete a Lacuna <span class="chip-pts">20 pts</span></div>
         <div class="level-chip"><span class="chip-num">2</span> Lacunas Duplas <span class="chip-pts">35 pts</span></div>
