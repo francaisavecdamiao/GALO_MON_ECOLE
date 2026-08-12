@@ -347,9 +347,6 @@
    DADOS DO JOGO — TEMA: ESCOLA
    ========================================================= */
 
-/* NÍVEL 1 — Uma lacuna + escolha da tradução
-   Distratores da lacuna: fonologicamente parecidos com a palavra certa
-   (ex.: correta "froid" -> erradas "fois", "boire"). */
 const level1Data = [
   { frBlanked:"Lucas prend son [ 1 ] à dos pour aller dans la classe.",
     frFull:"Lucas prend son sac à dos pour aller dans la classe.",
@@ -403,8 +400,6 @@ const level1Data = [
     transWrong:["Por enquanto, os meninos desenham em uma folha de papel.","Por enquanto, as meninas escrevem em uma folha de papel."] }
 ];
 
-/* NÍVEL 2 — Duas lacunas + escolha da tradução
-   Distratores das lacunas: fonologicamente parecidos com a palavra certa. */
 const level2Data = [
   { frBlanked:"Lucas [ 1 ] un taille-crayon parce que la mine est [ 2 ].",
     frFull:"Lucas cherche un taille-crayon parce que la mine est cassée.",
@@ -468,8 +463,6 @@ const level2Data = [
     transWrong:["O professor vai corrigir os erros no quadro.","O aluno vai corrigir os erros no caderno."] }
 ];
 
-/* NÍVEL 3 — Monte a frase (banco de palavras)
-   2 distratores fonológicos por frase. */
 const level3Data = [
   { pt:"As crianças entram na sala dos professores com o professor.",
     correctTokens:["Les","enfants","entrent","dans","la","salle","des","maîtres","avec","l'enseignant."],
@@ -517,11 +510,12 @@ const state = {
   l3: null
 };
 
+// Algoritmo Fisher-Yates de embaralhamento perfeito
 function shuffle(arr){
   const a = [...arr];
-  for(let i=a.length-1;i>0;i--){
+  for(let i=a.length-1; i>0; i--){
     const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]] = [a[j],a[i]];
+    [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
 }
@@ -533,7 +527,6 @@ function formatScore(n){
 
 /* =========================================================
    SONOPLASTIA
-   Os arquivos abaixo devem estar na mesma pasta deste HTML.
    ========================================================= */
 const SOUND_FILES = {
   click: 'click.mp3',
@@ -544,17 +537,18 @@ const SOUND_FILES = {
   win: 'win01.mp3',
   losing: 'losing.mp3'
 };
+
 function playSound(name){
   try{
     const src = SOUND_FILES[name];
     if(!src) return;
     const audio = new Audio(src);
-    audio.play().catch(()=>{ /* som indisponível ou bloqueado pelo navegador */ });
-  }catch(e){ /* ignora se áudio não puder ser criado */ }
+    audio.play().catch(()=>{});
+  }catch(e){}
 }
 
 /* =========================================================
-   NAVEGAÇÃO
+   NAVEGAÇÃO E REGRAS
    ========================================================= */
 function levelMaxPts(lvl){ return lvl===1?20:(lvl===2?35:45); }
 function levelPct(lvl){ return (state.levelScores[lvl]/levelMaxPts(lvl))*100; }
@@ -651,7 +645,7 @@ function renderTopbar(){
 }
 
 /* =========================================================
-   TELAS: HOME / LEVEL COMPLETE / FINAL
+   TELAS DE ESTRUTURA (HOME / LEVEL / FINAL)
    ========================================================= */
 function homeTemplate(){
   return `
@@ -720,9 +714,6 @@ function finalTemplate(){
   `;
 }
 
-/* =========================================================
-   HELPER — Lacuna (usado nos Níveis 1 e 2)
-   ========================================================= */
 function blankSpanHtml(selIdx, options, correctWord, checked, num){
   if(selIdx===null) return `<span class="blank">${num}</span>`;
   const word = options[selIdx];
@@ -732,7 +723,7 @@ function blankSpanHtml(selIdx, options, correctWord, checked, num){
 }
 
 /* =========================================================
-   NÍVEL 1 — Uma Lacuna + Tradução
+   NÍVEL 1 — LÓGICA E INTERFACE
    ========================================================= */
 function setupLevel1Question(idx){
   const q = level1Data[idx];
@@ -783,15 +774,14 @@ function renderLevel1(){
       return `<button class="${cls}" ${s.checkedB?'disabled':''} onclick="selectL1Translation(${i})">${o.text}</button>`;
     }).join('');
 
-    const btnLabel = s.checkedB ? 'Continuar' : 'Verificar Tradução';
+    const btnLabel = s.checkedB ? 'Próxima Questão' : 'Verificar Tradução';
     const btnOnclick = s.checkedB ? 'nextQuestion()' : 'checkL1Translation()';
     const btnDisabled = !s.checkedB && s.trSelected===null;
 
     content.innerHTML = `
       <div class="question-card">
-        <p class="instruction">Frase completa</p>
+        <p class="instruction">Escolha a tradução correta</p>
         <p class="fr-sentence">${q.frFull}</p>
-        <p class="instruction" style="margin-top:16px;">Escolha a tradução correta</p>
         <div class="options-grid">${trbtns}</div>
       </div>
       <div class="footer-space"></div>
@@ -800,57 +790,38 @@ function renderLevel1(){
   }
 }
 
-function selectL1Blank(i){
-  if(state.l1.checkedA) return;
-  playSound('click');
-  state.l1.bSelected = i;
-  renderLevel1();
-}
-
+function selectL1Blank(i){ playSound('click'); state.l1.bSelected=i; renderLevel1(); }
 function checkL1Blank(){
   const q = level1Data[state.qIndex];
   const s = state.l1;
   s.checkedA = true;
-  const ok = s.bOptions[s.bSelected]===q.blank.correct;
-  if(ok){ state.totalScore+=1; state.levelScores[1]+=1; }
-  playSound(ok ? 'ok' : 'falha');
-  renderLevel1();
-  renderTopbar();
-}
-
-function advanceL1Step(){
-  playSound('click');
-  state.l1.step='B';
+  const isCorrect = s.bOptions[s.bSelected] === q.blank.correct;
+  if(isCorrect){ playSound('ok'); state.levelScores[1]+=1; state.totalScore+=1; }
+  else { playSound('falha'); }
   renderLevel1();
 }
+function advanceL1Step(){ playSound('click'); state.l1.step='B'; renderLevel1(); }
 
-function selectL1Translation(i){
-  if(state.l1.checkedB) return;
-  playSound('click');
-  state.l1.trSelected = i;
-  renderLevel1();
-}
-
+function selectL1Translation(i){ playSound('click'); state.l1.trSelected=i; renderLevel1(); }
 function checkL1Translation(){
   const s = state.l1;
   s.checkedB = true;
-  const ok = s.trOptions[s.trSelected].correct;
-  if(ok){ state.totalScore+=1; state.levelScores[1]+=1; }
-  playSound(ok ? 'ok' : 'falha');
+  const isCorrect = s.trOptions[s.trSelected].correct;
+  if(isCorrect){ playSound('ok'); state.levelScores[1]+=1; state.totalScore+=1; }
+  else { playSound('falha'); }
   renderLevel1();
-  renderTopbar();
 }
 
 /* =========================================================
-   NÍVEL 2 — Lacunas Duplas + Tradução
+   NÍVEL 2 — LÓGICA E INTERFACE
    ========================================================= */
 function setupLevel2Question(idx){
   const q = level2Data[idx];
   state.l2 = {
     step:'A',
-    b1options: shuffle(q.blank1.options),
-    b2options: shuffle(q.blank2.options),
-    b1selected:null, b2selected:null, checkedA:false,
+    b1Options: shuffle(q.blank1.options), b1Selected:null,
+    b2Options: shuffle(q.blank2.options), b2Selected:null,
+    checkedA:false,
     trOptions: shuffle([{text:q.transCorrect,correct:true}, ...q.transWrong.map(w=>({text:w,correct:false}))]),
     trSelected:null, checkedB:false
   };
@@ -862,37 +833,36 @@ function renderLevel2(){
   const content = document.getElementById('content');
 
   if(s.step==='A'){
-    const span1 = blankSpanHtml(s.b1selected, s.b1options, q.blank1.correct, s.checkedA, 1);
-    const span2 = blankSpanHtml(s.b2selected, s.b2options, q.blank2.correct, s.checkedA, 2);
+    const span1 = blankSpanHtml(s.b1Selected, s.b1Options, q.blank1.correct, s.checkedA, 1);
+    const span2 = blankSpanHtml(s.b2Selected, s.b2Options, q.blank2.correct, s.checkedA, 2);
     const sentence = q.frBlanked.replace('[ 1 ]', span1).replace('[ 2 ]', span2);
 
-    const b1btns = s.b1options.map((w,i)=>{
+    const btns1 = s.b1Options.map((w,i)=>{
       let cls='chip-option';
-      if(s.checkedA){ if(w===q.blank1.correct) cls+=' correct'; else if(i===s.b1selected) cls+=' wrong'; }
-      else if(i===s.b1selected){ cls+=' selected'; }
+      if(s.checkedA){ if(w===q.blank1.correct) cls+=' correct'; else if(i===s.b1Selected) cls+=' wrong'; }
+      else if(i===s.b1Selected){ cls+=' selected'; }
       return `<button class="${cls}" ${s.checkedA?'disabled':''} onclick="selectL2Blank(1,${i})">${w}</button>`;
     }).join('');
 
-    const b2btns = s.b2options.map((w,i)=>{
+    const btns2 = s.b2Options.map((w,i)=>{
       let cls='chip-option';
-      if(s.checkedA){ if(w===q.blank2.correct) cls+=' correct'; else if(i===s.b2selected) cls+=' wrong'; }
-      else if(i===s.b2selected){ cls+=' selected'; }
+      if(s.checkedA){ if(w===q.blank2.correct) cls+=' correct'; else if(i===s.b2Selected) cls+=' wrong'; }
+      else if(i===s.b2Selected){ cls+=' selected'; }
       return `<button class="${cls}" ${s.checkedA?'disabled':''} onclick="selectL2Blank(2,${i})">${w}</button>`;
     }).join('');
 
-    const canCheck = s.b1selected!==null && s.b2selected!==null;
     const btnLabel = s.checkedA ? 'Continuar' : 'Verificar Lacunas';
     const btnOnclick = s.checkedA ? 'advanceL2Step()' : 'checkL2Blanks()';
-    const btnDisabled = !s.checkedA && !canCheck;
+    const btnDisabled = !s.checkedA && (s.b1Selected===null || s.b2Selected===null);
 
     content.innerHTML = `
       <div class="question-card">
-        <p class="instruction">Etapa A · Complete as lacunas</p>
+        <p class="instruction">Complete as duas lacunas</p>
         <p class="fr-sentence">${sentence}</p>
         <p class="chip-label">Lacuna 1</p>
-        <div class="chip-row">${b1btns}</div>
+        <div class="chip-row">${btns1}</div>
         <p class="chip-label">Lacuna 2</p>
-        <div class="chip-row">${b2btns}</div>
+        <div class="chip-row">${btns2}</div>
       </div>
       <div class="footer-space"></div>
       <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
@@ -905,15 +875,14 @@ function renderLevel2(){
       return `<button class="${cls}" ${s.checkedB?'disabled':''} onclick="selectL2Translation(${i})">${o.text}</button>`;
     }).join('');
 
-    const btnLabel = s.checkedB ? 'Continuar' : 'Verificar Tradução';
+    const btnLabel = s.checkedB ? 'Próxima Questão' : 'Verificar Tradução';
     const btnOnclick = s.checkedB ? 'nextQuestion()' : 'checkL2Translation()';
     const btnDisabled = !s.checkedB && s.trSelected===null;
 
     content.innerHTML = `
       <div class="question-card">
-        <p class="instruction">Etapa B · Frase completa</p>
+        <p class="instruction">Escolha a tradução correta</p>
         <p class="fr-sentence">${q.frFull}</p>
-        <p class="instruction" style="margin-top:16px;">Escolha a tradução correta</p>
         <div class="options-grid">${trbtns}</div>
       </div>
       <div class="footer-space"></div>
@@ -922,10 +891,10 @@ function renderLevel2(){
   }
 }
 
-function selectL2Blank(which, i){
-  if(state.l2.checkedA) return;
+function selectL2Blank(num, i){
   playSound('click');
-  if(which===1) state.l2.b1selected=i; else state.l2.b2selected=i;
+  if(num===1) state.l2.b1Selected=i;
+  else state.l2.b2Selected=i;
   renderLevel2();
 }
 
@@ -933,84 +902,93 @@ function checkL2Blanks(){
   const q = level2Data[state.qIndex];
   const s = state.l2;
   s.checkedA = true;
-  const b1ok = s.b1options[s.b1selected]===q.blank1.correct;
-  const b2ok = s.b2options[s.b2selected]===q.blank2.correct;
-  if(b1ok){ state.totalScore+=1; state.levelScores[2]+=1; }
-  if(b2ok){ state.totalScore+=1; state.levelScores[2]+=1; }
-  playSound(b1ok && b2ok ? 'ok' : 'falha');
+  const is1Ok = s.b1Options[s.b1Selected] === q.blank1.correct;
+  const is2Ok = s.b2Options[s.b2Selected] === q.blank2.correct;
+  
+  let pts = 0;
+  if(is1Ok) pts += 1;
+  if(is2Ok) pts += 1;
+  
+  state.levelScores[2] += pts;
+  state.totalScore += pts;
+
+  if(is1Ok && is2Ok) playSound('ok');
+  else playSound('falha');
   renderLevel2();
-  renderTopbar();
 }
 
-function advanceL2Step(){
-  playSound('click');
-  state.l2.step='B';
-  renderLevel2();
-}
+function advanceL2Step(){ playSound('click'); state.l2.step='B'; renderLevel2(); }
 
-function selectL2Translation(i){
-  if(state.l2.checkedB) return;
-  playSound('click');
-  state.l2.trSelected = i;
-  renderLevel2();
-}
+function selectL2Translation(i){ playSound('click'); state.l2.trSelected=i; renderLevel2(); }
 
 function checkL2Translation(){
   const s = state.l2;
   s.checkedB = true;
-  if(s.trOptions[s.trSelected].correct){
-    state.totalScore+=1.5; state.levelScores[2]+=1.5;
+  const isCorrect = s.trOptions[s.trSelected].correct;
+  if(isCorrect){
     playSound('ok');
+    state.levelScores[2] += 1.5;
+    state.totalScore += 1.5;
   } else {
     playSound('falha');
   }
   renderLevel2();
-  renderTopbar();
 }
 
 /* =========================================================
-   NÍVEL 3 — Monte a Frase (banco de palavras)
+   NÍVEL 3 — LÓGICA E INTERFACE
    ========================================================= */
 function setupLevel3Question(idx){
   const q = level3Data[idx];
-  const bank = shuffle([...q.correctTokens, ...q.distractors]).map((w,i)=>({ id:i, word:w, used:false }));
-  state.l3 = { bank, built:[], checked:false };
+  const allTokens = [...q.correctTokens, ...q.distractors];
+  
+  // Cria array de objetos com ID único para cada bloco de palavra
+  const tiles = allTokens.map((txt, id) => ({ id, text: txt }));
+
+  state.l3 = {
+    bank: shuffle(tiles),
+    placed: [],
+    checked: false,
+    isCorrect: false
+  };
 }
 
 function renderLevel3(){
   const q = level3Data[state.qIndex];
   const s = state.l3;
-  const builtWords = s.built.map(id=>s.bank.find(b=>b.id===id).word);
-  const isCorrect = s.checked && builtWords.join(' ')===q.correctTokens.join(' ');
+  const content = document.getElementById('content');
 
-  const builtHtml = s.built.map(id=>{
-    const b = s.bank.find(x=>x.id===id);
-    let cls='tile placed';
-    if(s.checked) cls += isCorrect ? ' correct' : ' wrong';
-    return `<button class="${cls}" ${s.checked?'disabled':''} onclick="removeL3Tile(${b.id})">${b.word}</button>`;
+  let rowCls = 'build-row';
+  if(s.checked) rowCls += s.isCorrect ? ' row-correct' : ' row-wrong';
+
+  const placedHtml = s.placed.length === 0
+    ? `<span class="build-placeholder">Toque nas palavras abaixo para construir a frase...</span>`
+    : s.placed.map(t => {
+        let cls = 'tile placed';
+        if(s.checked) cls += s.isCorrect ? ' correct' : ' wrong';
+        return `<button class="${cls}" ${s.checked?'disabled':''} onclick="unplaceTile(${t.id})">${t.text}</button>`;
+      }).join('');
+
+  const bankHtml = s.bank.map(t => {
+    const isUsed = s.placed.some(p => p.id === t.id);
+    if(isUsed) return '';
+    return `<button class="tile" ${s.checked?'disabled':''} onclick="placeTile(${t.id})">${t.text}</button>`;
   }).join('');
 
-  const bankHtml = s.bank.filter(b=>!b.used).map(b=>{
-    return `<button class="tile" ${s.checked?'disabled':''} onclick="addL3Tile(${b.id})">${b.word}</button>`;
-  }).join('');
-
-  const canCheck = s.built.length===q.correctTokens.length;
-  const btnLabel = s.checked ? 'Continuar' : 'Verificar';
-  const btnOnclick = s.checked ? 'nextQuestion()' : 'checkL3()';
-  const btnDisabled = !s.checked && !canCheck;
-
-  const gabarito = (s.checked && !isCorrect)
-    ? `<p class="gabarito">Ordem correta: <strong>${q.correctTokens.join(' ')}</strong></p>`
+  const gabaritoHtml = (s.checked && !s.isCorrect)
+    ? `<div class="gabarito"><strong>Correto:</strong> ${q.correctTokens.join(' ')}</div>`
     : '';
 
-  document.getElementById('content').innerHTML = `
+  const btnLabel = s.checked ? 'Próxima Questão' : 'Verificar Frase';
+  const btnOnclick = s.checked ? 'nextQuestion()' : 'checkL3()';
+  const btnDisabled = !s.checked && s.placed.length === 0;
+
+  content.innerHTML = `
     <div class="question-card">
-      <p class="instruction">Monte a frase em francês</p>
-      <p class="pt-sentence">${q.pt}</p>
-      <div class="build-row ${s.checked ? (isCorrect?'row-correct':'row-wrong') : ''}">
-        ${builtHtml || '<span class="build-placeholder">Toque nas palavras abaixo, na ordem certa</span>'}
-      </div>
-      ${gabarito}
+      <p class="instruction">Traduza para o francês</p>
+      <div class="pt-sentence">${q.pt}</div>
+      <div class="${rowCls}">${placedHtml}</div>
+      ${gabaritoHtml}
       <div class="bank-row">${bankHtml}</div>
     </div>
     <div class="footer-space"></div>
@@ -1018,24 +996,20 @@ function renderLevel3(){
   `;
 }
 
-function addL3Tile(id){
-  const s = state.l3;
-  if(s.checked) return;
-  const item = s.bank.find(b=>b.id===id);
-  if(item.used) return;
+function placeTile(id){
+  if(state.l3.checked) return;
   playSound('click');
-  item.used = true;
-  s.built.push(id);
-  renderLevel3();
+  const item = state.l3.bank.find(t => t.id === id);
+  if(item && !state.l3.placed.some(p => p.id === id)){
+    state.l3.placed.push(item);
+    renderLevel3();
+  }
 }
 
-function removeL3Tile(id){
-  const s = state.l3;
-  if(s.checked) return;
+function unplaceTile(id){
+  if(state.l3.checked) return;
   playSound('click');
-  const item = s.bank.find(b=>b.id===id);
-  item.used = false;
-  s.built = s.built.filter(x=>x!==id);
+  state.l3.placed = state.l3.placed.filter(p => p.id !== id);
   renderLevel3();
 }
 
@@ -1043,22 +1017,24 @@ function checkL3(){
   const q = level3Data[state.qIndex];
   const s = state.l3;
   s.checked = true;
-  const builtWords = s.built.map(id=>s.bank.find(b=>b.id===id).word);
-  if(builtWords.join(' ')===q.correctTokens.join(' ')){
-    state.totalScore += 4.5;
-    state.levelScores[3] += 4.5;
+
+  const builtText = s.placed.map(t => t.text).join(' ');
+  const targetText = q.correctTokens.join(' ');
+
+  s.isCorrect = (builtText === targetText);
+
+  if(s.isCorrect){
     playSound('ok');
+    state.levelScores[3] += 4.5;
+    state.totalScore += 4.5;
   } else {
     playSound('falha');
   }
   renderLevel3();
-  renderTopbar();
 }
 
-/* =========================================================
-   INICIALIZAÇÃO
-   ========================================================= */
-render();
+// Inicialização automática ao carregar
+window.onload = () => { render(); };
 </script>
 </body>
 </html>
