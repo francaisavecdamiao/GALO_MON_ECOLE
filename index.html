@@ -120,6 +120,10 @@
     gap:16px;
   }
 
+  .btn, .option-card, .chip-option, .audio-btn, .letter-tile {
+    color: #ffffff !important;
+  }
+
   .btn{
     font-size: 18px;
     letter-spacing: .3px;
@@ -667,7 +671,6 @@ const state = {
   totalScore: 0,
   levelScores: {1:0, 2:0, 3:0},
   audioSpeed: 1.0,
-  currentAudio: null,
   voices: [],
   maleVoice: null,
   l1: null,
@@ -706,14 +709,18 @@ function initVoices() {
   if ('speechSynthesis' in window) {
     const updateVoices = () => {
       state.voices = window.speechSynthesis.getVoices();
-      const frVoices = state.voices.filter(v => v.lang.startsWith('fr'));
-      state.maleVoice = frVoices.find(v => 
-        v.name.toLowerCase().includes('male') || 
-        v.name.toLowerCase().includes('thomas') || 
-        v.name.toLowerCase().includes('nicolas') || 
-        v.name.toLowerCase().includes('paul') ||
-        v.name.toLowerCase().includes('claude')
-      ) || frVoices[0] || null;
+      const frVoices = state.voices.filter(v => v.lang.startsWith('fr') || v.lang.startsWith('fr-'));
+      // Prioriza vozes masculinas conhecidas (Chrome, Edge, Safari, etc.)
+      const maleKeywords = ['male', 'homme', 'thomas', 'nicolas', 'paul', 'claude', 'henri', 'jacques', 'pierre', 'google français', 'microsoft hortense', 'microsoft julie'];
+      // Hortense/Julie são femininas; melhor lista masculina:
+      const preferredMale = ['thomas', 'nicolas', 'paul', 'claude', 'henri', 'jacques', 'pierre', 'male', 'homme', 'françois', 'google français male'];
+      state.maleVoice = frVoices.find(v => {
+        const name = v.name.toLowerCase();
+        return preferredMale.some(k => name.includes(k)) && !name.includes('female') && !name.includes('femme');
+      }) || frVoices.find(v => {
+        const name = v.name.toLowerCase();
+        return !name.includes('female') && !name.includes('femme') && !name.includes('julie') && !name.includes('hortense') && !name.includes('amélie');
+      }) || frVoices[0] || null;
     };
     updateVoices();
     window.speechSynthesis.onvoiceschanged = updateVoices;
@@ -729,7 +736,7 @@ function playSound(name){
   }catch(e){}
 }
 
-// Pronuncia APENAS as palavras/opções clicadas
+// Pronuncia texto em francês com voz masculina (palavras e frases)
 function playFrenchTTS(text){
   try {
     window.speechSynthesis.cancel();
@@ -740,32 +747,16 @@ function playFrenchTTS(text){
     if (state.maleVoice) {
       utterance.voice = state.maleVoice;
     }
-    utterance.pitch = 0.85; // Tom de voz mais grave
+    utterance.pitch = 0.85; // Tom de voz mais grave (masculino)
     
     window.speechSynthesis.speak(utterance);
   } catch(e) {}
 }
 
-// Executa APENAS os arquivos MP3 das frases
-function playSentenceAudio(url){
-  try {
-    if(state.currentAudio){
-      state.currentAudio.pause();
-    }
-    state.currentAudio = new Audio(url);
-    state.currentAudio.playbackRate = state.audioSpeed;
-    state.currentAudio.play().catch(err => {
-      console.warn("Não foi possível tocar o arquivo de áudio:", url);
-    });
-  } catch(e) {}
-}
-
 function updateAudioSpeed(val){
   state.audioSpeed = parseFloat(val);
-  document.getElementById('speed-val').innerText = state.audioSpeed.toFixed(1) + 'x';
-  if(state.currentAudio){
-    state.currentAudio.playbackRate = state.audioSpeed;
-  }
+  const el = document.getElementById('speed-val');
+  if(el) el.innerText = state.audioSpeed.toFixed(1) + 'x';
 }
 
 function getCurrentQuestionData(){
@@ -789,7 +780,10 @@ function startGame(){
 }
 
 function setupCurrentQuestion(){
-  if(state.currentAudio){ state.currentAudio.pause(); }
+  // Cancela qualquer fala TTS em andamento ao mudar de questão
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+  }
   if(state.level===1) setupLevel1Question(state.qIndex);
   else if(state.level===2) setupLevel2Question(state.qIndex);
   else setupLevel3Question(state.qIndex);
@@ -872,12 +866,15 @@ function renderTopbar(){
   `;
 }
 
-function renderAudioControls(audioUrl){
-  // Escapa aspas simples no caminho do arquivo
-  const safeAudioUrl = audioUrl.replace(/'/g, "\\'");
+function renderAudioControls(sentenceText){
+  // Escapa aspas e caracteres especiais para o onclick
+  const safeText = sentenceText
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/\n/g, ' ');
   return `
     <div class="audio-controls">
-      <button class="audio-btn" onclick="playSentenceAudio('${safeAudioUrl}')">🔊 Ouvir Frase</button>
+      <button class="audio-btn" onclick="playFrenchTTS('${safeText}')">🔊 Ouvir Frase</button>
       <div class="speed-control">
         <div class="speed-label">
           <span>Velocidade</span>
@@ -1006,7 +1003,7 @@ function renderLevel1(){
     content.innerHTML = `
       <div class="question-card">
         <p class="instruction">Complete a lacuna</p>
-        ${renderAudioControls(q.audio)}
+        ${renderAudioControls(q.frFull)}
         <p class="fr-sentence">${sentence}</p>
         <p class="chip-label">Lacuna</p>
         <div class="chip-row">${btns}</div>
@@ -1029,7 +1026,7 @@ function renderLevel1(){
     content.innerHTML = `
       <div class="question-card">
         <p class="instruction">Escolha a tradução correta</p>
-        ${renderAudioControls(q.audio)}
+        ${renderAudioControls(q.frFull)}
         <p class="fr-sentence">${q.frFull}</p>
         <div class="options-grid">${trbtns}</div>
       </div>
@@ -1113,7 +1110,7 @@ function renderLevel2(){
     content.innerHTML = `
       <div class="question-card">
         <p class="instruction">Complete as duas lacunas</p>
-        ${renderAudioControls(q.audio)}
+        ${renderAudioControls(q.frFull)}
         <p class="fr-sentence">${sentence}</p>
         <p class="chip-label">Lacuna 1</p>
         <div class="chip-row">${btns1}</div>
@@ -1138,7 +1135,7 @@ function renderLevel2(){
     content.innerHTML = `
       <div class="question-card">
         <p class="instruction">Escolha a tradução correta</p>
-        ${renderAudioControls(q.audio)}
+        ${renderAudioControls(q.frFull)}
         <p class="fr-sentence">${q.frFull}</p>
         <div class="options-grid">${trbtns}</div>
       </div>
@@ -1298,7 +1295,7 @@ function renderLevel3(){
     content.innerHTML = `
       <div class="question-card">
         <p class="instruction">Preencha as lacunas na frase</p>
-        ${renderAudioControls(q.audio)}
+        ${renderAudioControls(q.frFull)}
         
         <p class="fr-sentence">${sentenceHtml}</p>
 
@@ -1328,7 +1325,7 @@ function renderLevel3(){
     content.innerHTML = `
       <div class="question-card">
         <p class="instruction">Escolha a tradução correta</p>
-        ${renderAudioControls(q.audio)}
+        ${renderAudioControls(q.frFull)}
         <p class="fr-sentence">${q.frFull}</p>
         <div class="options-grid">${trbtns}</div>
       </div>
