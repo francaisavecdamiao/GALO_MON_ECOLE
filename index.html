@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#F7F9FA">
 <title>GALOLINGO — ESCOLA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,9 +15,15 @@
     src: url('fonts/Feather-Bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
+    font-display: swap;
+  }
+
+  html{
+    color-scheme: light only;
   }
 
   :root{
+    color-scheme: light only;
     --rosa: #F2A7AD;
     --laranja-escuro: #EF7211;
     --azul-claro: #C2EDF2;
@@ -120,36 +128,53 @@
     gap:16px;
   }
 
-  /* FORÇA TEXTO BRANCO EM TODOS OS ELEMENTOS LARANJA / BOTÕES */
+  /* =========================================================
+     REGRA GLOBAL: QUALQUER ELEMENTO COM FUNDO LARANJA (OU
+     PREENCHIDO/CORRETO/ERRADO) TEM SEMPRE TEXTO BRANCO.
+     Esta lista cobre TODOS os retângulos/pílulas laranjas do
+     app: botões principais, opções, chips, letras montadas,
+     lacunas preenchidas, tile do teclado de letras, etc.
+     ========================================================= */
   .btn,
   .option-card,
   .chip-option,
   .audio-btn,
   .letter-tile,
   .letter-box.filled,
+  .letter-box.correct,
+  .letter-box.wrong,
   .blank-filled,
-  .chip-num {
-    color: #ffffff !important;
-  }
-
-  .btn:hover,
-  .option-card:hover:not(:disabled),
-  .chip-option:hover:not(:disabled),
-  .audio-btn:hover,
-  .letter-tile:hover:not(.disabled) {
-    color: #ffffff !important;
-  }
-
+  .blank-correct,
+  .blank-wrong,
+  .chip-num,
   .option-card.selected,
   .chip-option.selected,
   .option-card.correct,
   .chip-option.correct,
   .option-card.wrong,
-  .chip-option.wrong,
-  .letter-box.correct,
-  .letter-box.wrong,
-  .blank-correct,
-  .blank-wrong {
+  .chip-option.wrong {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  .btn:hover,
+  .btn:active,
+  .btn:focus,
+  .btn:disabled,
+  .option-card:hover:not(:disabled),
+  .option-card:active,
+  .option-card:focus,
+  .option-card:disabled,
+  .chip-option:hover:not(:disabled),
+  .chip-option:active,
+  .chip-option:focus,
+  .chip-option:disabled,
+  .audio-btn:hover,
+  .audio-btn:active,
+  .audio-btn:focus,
+  .letter-tile:hover:not(.disabled),
+  .letter-tile:active,
+  .letter-tile:focus {
     color: #ffffff !important;
   }
 
@@ -459,24 +484,27 @@
     *{ animation: none !important; transition: none !important; }
   }
 
-  /* ÚLTIMA CAMADA DE FORÇA ABSOLUTA: texto sempre BRANCO em botões e elementos preenchidos */
+  /* ÚLTIMA CAMADA DE FORÇA ABSOLUTA: texto sempre BRANCO em
+     absolutamente TODOS os botões e retângulos/pílulas laranjas,
+     preenchidos, corretos ou errados — sem exceção. */
   button,
   button.btn,
   button.option-card,
   button.chip-option,
   button.audio-btn,
   button.letter-tile,
-  .letter-box.filled,
-  .letter-box.correct,
-  .letter-box.wrong,
-  .blank.blank-filled,
-  .blank.blank-correct,
-  .blank.blank-wrong,
+  span.letter-box.filled,
+  span.letter-box.correct,
+  span.letter-box.wrong,
+  span.blank.blank-filled,
+  span.blank.blank-correct,
+  span.blank.blank-wrong,
   .chip-num {
     color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
   }
 
-  /* Garante também em todos os estados */
+  /* Garante também em todos os estados possíveis */
   button:hover,
   button:active,
   button:focus,
@@ -1107,7 +1135,7 @@ function renderLevel1(){
       let cls='chip-option';
       if(s.checkedA){ if(w===q.blank.correct) cls+=' correct'; else if(i===s.bSelected) cls+=' wrong'; }
       else if(i===s.bSelected){ cls+=' selected'; }
-      return `<button class="${cls}" ${s.checkedA?'disabled':''} onclick="selectL1Blank(${i})">${w}</button>`;
+      return `<button class="${cls}" style="color:#ffffff !important;" ${s.checkedA?'disabled':''} onclick="selectL1Blank(${i})">${w}</button>`;
     }).join('');
 
     const btnLabel = s.checkedA ? 'continuar' : 'verificar lacuna';
@@ -1130,7 +1158,7 @@ function renderLevel1(){
       let cls='option-card';
       if(s.checkedB){ if(o.correct) cls+=' correct'; else if(i===s.trSelected) cls+=' wrong'; }
       else if(i===s.trSelected){ cls+=' selected'; }
-      return `<button class="${cls}" ${s.checkedB?'disabled':''} onclick="selectL1Translation(${i})">${o.text}</button>`;
+      return `<button class="${cls}" style="color:#ffffff !important;" ${s.checkedB?'disabled':''} onclick="selectL1Translation(${i})">${o.text}</button>`;
     }).join('');
 
     const btnLabel = s.checkedB ? 'próxima questão' : 'verificar tradução';
@@ -1207,14 +1235,14 @@ function renderLevel2(){
       let cls='chip-option';
       if(s.checkedA){ if(w===q.blank1.correct) cls+=' correct'; else if(i===s.b1Selected) cls+=' wrong'; }
       else if(i===s.b1Selected){ cls+=' selected'; }
-      return `<button class="${cls}" ${s.checkedA?'disabled':''} onclick="selectL2Blank(1,${i})">${w}</button>`;
+      return `<button class="${cls}" style="color:#ffffff !important;" ${s.checkedA?'disabled':''} onclick="selectL2Blank(1,${i})">${w}</button>`;
     }).join('');
 
     const btns2 = s.b2Options.map((w,i)=>{
       let cls='chip-option';
       if(s.checkedA){ if(w===q.blank2.correct) cls+=' correct'; else if(i===s.b2Selected) cls+=' wrong'; }
       else if(i===s.b2Selected){ cls+=' selected'; }
-      return `<button class="${cls}" ${s.checkedA?'disabled':''} onclick="selectL2Blank(2,${i})">${w}</button>`;
+      return `<button class="${cls}" style="color:#ffffff !important;" ${s.checkedA?'disabled':''} onclick="selectL2Blank(2,${i})">${w}</button>`;
     }).join('');
 
     const btnLabel = s.checkedA ? 'continuar' : 'verificar lacunas';
@@ -1239,7 +1267,7 @@ function renderLevel2(){
       let cls='option-card';
       if(s.checkedB){ if(o.correct) cls+=' correct'; else if(i===s.trSelected) cls+=' wrong'; }
       else if(i===s.trSelected){ cls+=' selected'; }
-      return `<button class="${cls}" ${s.checkedB?'disabled':''} onclick="selectL2Translation(${i})">${o.text}</button>`;
+      return `<button class="${cls}" style="color:#ffffff !important;" ${s.checkedB?'disabled':''} onclick="selectL2Translation(${i})">${o.text}</button>`;
     }).join('');
 
     const btnLabel = s.checkedB ? 'próxima questão' : 'verificar tradução';
@@ -1315,9 +1343,10 @@ function setupLevel3Question(idx){
   
   const lcOptions = shuffle(q.lcOptions);
   
+  // Teclado de letras: APENAS as letras da palavra-alvo (sem distratores),
+  // embaralhadas para o aluno montar a palavra clicando na ordem correta.
   const targetChars = q.montarWord.split('');
-  const extraChars = shuffle(['a','e','i','o','u','r','s','t','l','n']).slice(0, 3);
-  const allChars = shuffle([...targetChars, ...extraChars]);
+  const allChars = shuffle(targetChars);
   const tiles = allChars.map((char, id) => ({ id, char }));
 
   const trOptions = shuffle([
@@ -1370,7 +1399,8 @@ function renderLevel3(){
       if(s.checkedA){
         cls = 'letter-box ' + (s.montarSlots.map(x=>x?x.char:'').join('') === q.montarWord ? 'correct' : 'wrong');
       }
-      // Preserva capitalização original + força texto branco
+      // Preserva capitalização original. Sempre que a casa estiver
+      // preenchida (laranja, correta ou errada) o texto fica branco.
       const whiteStyle = slot ? ' style="color:#ffffff !important;"' : '';
       montarBoxesHtml += `<span class="${cls}" onclick="removeLetterSlot(${i})"${whiteStyle}>${char}</span>`;
     }
@@ -1431,7 +1461,7 @@ function renderLevel3(){
       let cls='option-card';
       if(s.checkedB){ if(o.correct) cls+=' correct'; else if(i===s.trSelected) cls+=' wrong'; }
       else if(i===s.trSelected){ cls+=' selected'; }
-      return `<button class="${cls}" ${s.checkedB?'disabled':''} onclick="selectL3Translation(${i})">${o.text}</button>`;
+      return `<button class="${cls}" style="color:#ffffff !important;" ${s.checkedB?'disabled':''} onclick="selectL3Translation(${i})">${o.text}</button>`;
     }).join('');
 
     const btnLabel = s.checkedB ? 'próxima questão' : 'verificar tradução';
