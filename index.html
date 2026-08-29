@@ -717,8 +717,7 @@ const state = {
   totalScore: 0,
   levelScores: {1:0, 2:0, 3:0},
   audioSpeed: 0.8,
-  voices: [],
-  femaleVoice: null,
+  currentAudioInstance: null,
   l1: null,
   l2: null,
   l3: null
@@ -739,7 +738,7 @@ function formatScore(n){
 }
 
 /* =========================================================
-   SISTEMA DE ÁUDIO E SPEECH (VOZ FEMININA SUAVE E NEURAL)
+   SISTEMA DE ÁUDIO MP3
    ========================================================= */
 const SOUND_FILES = {
   click: 'click.mp3',
@@ -751,74 +750,6 @@ const SOUND_FILES = {
   losing: 'losing.mp3'
 };
 
-function initVoices() {
-  if ('speechSynthesis' in window) {
-    const updateVoices = () => {
-      state.voices = window.speechSynthesis.getVoices();
-      
-      const frVoices = state.voices.filter(v => 
-        v.lang.toLowerCase().startsWith('fr')
-      );
-
-      // Prioridade: Vozes neurais e femininas mais suaves do Google, Microsoft e Apple
-      const preferredFemaleVoices = [
-        // --- GOOGLE (Android, Chrome, ChromeOS) ---
-        'fr-fr-x-vcf-local',      // Neural HD local (Google)
-        'fr-fr-x-fra-network',    // Neural de alta fidelidade em nuvem (Google)
-        'fr-fr-x-frd-network',    // Variante suave Google Network
-        'google français',        // Nome padrão de voz suave no Chrome
-        'google french',
-        'fr-fr-language',
-        
-        // --- MICROSOFT (Edge, Windows) ---
-        'microsoft denise',
-        'microsoft hortense',
-        'microsoft julie',
-        'microsoft pauline',
-        'microsoft francine',
-        
-        // --- APPLE (Safari, iOS, macOS) ---
-        'amélie',
-        'audrey',
-        'chantal',
-        'aurelie',
-        
-        // --- TERMOS GENÉRICOS ---
-        'female',
-        'femme'
-      ];
-
-      let chosen = null;
-
-      for (const pref of preferredFemaleVoices) {
-        chosen = frVoices.find(v => v.name.toLowerCase().includes(pref));
-        if (chosen) break;
-      }
-
-      // Exclui vozes masculinas conhecidas se não houver correspondência exata
-      if (!chosen) {
-        chosen = frVoices.find(v => {
-          const n = v.name.toLowerCase();
-          return !n.includes('male') && 
-                 !n.includes('homme') && 
-                 !n.includes('claude') && 
-                 !n.includes('henri') && 
-                 !n.includes('paul');
-        });
-      }
-
-      state.femaleVoice = chosen || frVoices[0] || null;
-    };
-
-    updateVoices();
-    if (window.speechSynthesis.onvoiceschanged !== undefined) {
-      window.speechSynthesis.onvoiceschanged = updateVoices;
-    }
-    setTimeout(updateVoices, 300);
-    setTimeout(updateVoices, 1000);
-  }
-}
-
 function playSound(name){
   try{
     const src = SOUND_FILES[name];
@@ -828,33 +759,26 @@ function playSound(name){
   }catch(e){}
 }
 
-function playFrenchTTS(text){
+function playFrenchAudio(audioPath){
   try {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'fr-FR';
-    
-    // Parâmetros para garantir uma fala suave e natural
-    utterance.rate = state.audioSpeed; 
-    utterance.pitch = 1.08;            // Tom levemente elevado para suavizar a entonação
-    utterance.volume = 1;
-
-    if (state.femaleVoice) {
-      utterance.voice = state.femaleVoice;
-    } else {
-      const voices = window.speechSynthesis.getVoices();
-      const fr = voices.find(v => v.lang.startsWith('fr'));
-      if (fr) utterance.voice = fr;
+    if(state.currentAudioInstance){
+      state.currentAudioInstance.pause();
+      state.currentAudioInstance.currentTime = 0;
     }
-
-    window.speechSynthesis.speak(utterance);
+    const audio = new Audio(audioPath);
+    audio.playbackRate = state.audioSpeed;
+    state.currentAudioInstance = audio;
+    audio.play().catch(e => console.warn('Erro ao reproduzir o arquivo de áudio:', e));
   } catch(e) {
-    console.warn('Erro ao reproduzir TTS:', e);
+    console.warn('Erro na execução do áudio:', e);
   }
 }
 
 function updateAudioSpeed(val){
   state.audioSpeed = parseFloat(val);
+  if(state.currentAudioInstance){
+    state.currentAudioInstance.playbackRate = state.audioSpeed;
+  }
   const el = document.getElementById('speed-val');
   if(el) el.innerText = state.audioSpeed.toFixed(1) + 'x';
 }
@@ -880,8 +804,9 @@ function startGame(){
 }
 
 function setupCurrentQuestion(){
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
+  if(state.currentAudioInstance){
+    state.currentAudioInstance.pause();
+    state.currentAudioInstance.currentTime = 0;
   }
   if(state.level===1) setupLevel1Question(state.qIndex);
   else if(state.level===2) setupLevel2Question(state.qIndex);
@@ -965,14 +890,13 @@ function renderTopbar(){
   `;
 }
 
-function renderAudioControls(sentenceText){
-  const safeText = sentenceText
+function renderAudioControls(audioPath){
+  const safeAudio = audioPath
     .replace(/\\/g, '\\\\')
-    .replace(/'/g, "\\'")
-    .replace(/\n/g, ' ');
+    .replace(/'/g, "\\'");
   return `
     <div class="audio-controls">
-      <button class="audio-btn" style="color:#ffffff !important;" onclick="playFrenchTTS('${safeText}')">🔊 Ouvir Frase</button>
+      <button class="audio-btn" style="color:#ffffff !important;" onclick="playFrenchAudio('${safeAudio}')">🔊 Ouvir Frase</button>
       <div class="speed-control">
         <div class="speed-label">
           <span>Velocidade</span>
@@ -1101,7 +1025,7 @@ function renderLevel1(){
     content.innerHTML = `
       <div class="question-card">
         <p class="instruction">Complete a lacuna</p>
-        ${renderAudioControls(q.frFull)}
+        ${renderAudioControls(q.audio)}
         <p class="fr-sentence">${sentence}</p>
         <p class="chip-label">Lacuna</p>
         <div class="chip-row">${btns}</div>
@@ -1124,7 +1048,7 @@ function renderLevel1(){
     content.innerHTML = `
       <div class="question-card">
         <p class="instruction">Escolha a tradução correta</p>
-        ${renderAudioControls(q.frFull)}
+        ${renderAudioControls(q.audio)}
         <p class="fr-sentence">${q.frFull}</p>
         <div class="options-grid">${trbtns}</div>
       </div>
@@ -1137,7 +1061,6 @@ function renderLevel1(){
 function selectL1Blank(i){ 
   playSound('click'); 
   state.l1.bSelected=i; 
-  playFrenchTTS(state.l1.bOptions[i]);
   renderLevel1(); 
 }
 
@@ -1208,7 +1131,7 @@ function renderLevel2(){
     content.innerHTML = `
       <div class="question-card">
         <p class="instruction">Complete as duas lacunas</p>
-        ${renderAudioControls(q.frFull)}
+        ${renderAudioControls(q.audio)}
         <p class="fr-sentence">${sentence}</p>
         <p class="chip-label">Lacuna 1</p>
         <div class="chip-row">${btns1}</div>
@@ -1233,7 +1156,7 @@ function renderLevel2(){
     content.innerHTML = `
       <div class="question-card">
         <p class="instruction">Escolha a tradução correta</p>
-        ${renderAudioControls(q.frFull)}
+        ${renderAudioControls(q.audio)}
         <p class="fr-sentence">${q.frFull}</p>
         <div class="options-grid">${trbtns}</div>
       </div>
@@ -1247,10 +1170,8 @@ function selectL2Blank(num, i){
   playSound('click');
   if(num===1) {
     state.l2.b1Selected=i;
-    playFrenchTTS(state.l2.b1Options[i]);
   } else {
     state.l2.b2Selected=i;
-    playFrenchTTS(state.l2.b2Options[i]);
   }
   renderLevel2();
 }
@@ -1389,7 +1310,7 @@ function renderLevel3(){
     content.innerHTML = `
       <div class="question-card">
         <p class="instruction">Preencha as lacunas na frase</p>
-        ${renderAudioControls(q.frFull)}
+        ${renderAudioControls(q.audio)}
         
         <p class="fr-sentence">${sentenceHtml}</p>
 
@@ -1419,7 +1340,7 @@ function renderLevel3(){
     content.innerHTML = `
       <div class="question-card">
         <p class="instruction">Escolha a tradução correta</p>
-        ${renderAudioControls(q.frFull)}
+        ${renderAudioControls(q.audio)}
         <p class="fr-sentence">${q.frFull}</p>
         <div class="options-grid">${trbtns}</div>
       </div>
@@ -1432,8 +1353,6 @@ function renderLevel3(){
 function selectL3LCOption(index){
   playSound('click');
   state.l3.lcSelected = index;
-  const word = state.l3.lcOptions[index];
-  playFrenchTTS(word);
   renderLevel3();
 }
 
@@ -1511,7 +1430,6 @@ function checkL3Translation(){
 }
 
 window.onload = () => { 
-  initVoices();
   render(); 
 };
 </script>
