@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>GALOLINGO — ESCOLA</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   /* Carregamento da fonte Feather-Bold */
   @font-face {
@@ -132,7 +123,7 @@
     border-radius: 16px;
     padding: 15px 20px;
     cursor: pointer;
-    color: #fff;
+    color: #ffffff !important; /* TEXTO EM BRANCO */
     background: var(--laranja-escuro);
     box-shadow: 0 5px 0 var(--laranja-dark);
     transition: transform .05s ease, box-shadow .05s ease, opacity .2s ease;
@@ -179,7 +170,7 @@
   }
   .chip-num{
     background: var(--rosa);
-    color:#fff;
+    color:#fff !important; /* TEXTO EM BRANCO */
     width:28px; height:28px;
     border-radius:50%;
     display:flex; align-items:center; justify-content:center;
@@ -242,19 +233,19 @@
     font-weight:700;
     font-size: 15px;
     text-align:left;
-    background: #fff;
-    border: 2px solid var(--border);
+    background: var(--laranja-escuro); /* Fundo com a cor do tema para contrastar com o texto branco */
+    border: 2px solid var(--laranja-dark);
     border-bottom-width:4px;
     border-radius: var(--radius-md);
     padding: 13px 16px;
-    color: var(--text);
+    color: #ffffff !important; /* TEXTO EM BRANCO */
     cursor:pointer;
     transition: all .12s ease;
   }
-  .option-card:hover:not(:disabled){ background:#FAF5F0; }
-  .option-card.selected{ border-color: var(--laranja-salmao); background:#FFF8F5; color: var(--laranja-escuro); }
-  .option-card.correct{ border-color: var(--green-correct); background:#EAF9E7; color: var(--green-correct-dark); }
-  .option-card.wrong{ border-color: var(--vermelho); background:#FDF0F0; color: var(--vermelho-dark); }
+  .option-card:hover:not(:disabled){ background: var(--laranja-dark); }
+  .option-card.selected{ border-color: var(--laranja-dark); background: var(--laranja-salmao); color: #ffffff !important; }
+  .option-card.correct{ border-color: var(--green-correct-dark); background: var(--green-correct); color: #ffffff !important; }
+  .option-card.wrong{ border-color: var(--vermelho-dark); background: var(--vermelho); color: #ffffff !important; }
   .option-card:disabled{ cursor:default; }
 
   /* blanks (Nível 1 e 2) */
@@ -270,9 +261,9 @@
     font-weight:800;
     border-bottom: 3px solid #CCC;
   }
-  .blank-filled{ background:#FFF8F5; color: var(--laranja-escuro); border-bottom-color: var(--laranja-escuro); }
-  .blank-correct{ background:#EAF9E7; color: var(--green-correct-dark); border-bottom-color: var(--green-correct); }
-  .blank-wrong{ background:#FDF0F0; color: var(--vermelho-dark); border-bottom-color: var(--vermelho); }
+  .blank-filled{ background: var(--laranja-escuro); color: #ffffff !important; border-bottom-color: var(--laranja-dark); }
+  .blank-correct{ background: var(--green-correct); color: #ffffff !important; border-bottom-color: var(--green-correct-dark); }
+  .blank-wrong{ background: var(--vermelho); color: #ffffff !important; border-bottom-color: var(--vermelho-dark); }
 
   .chip-label{
     font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px;
@@ -283,18 +274,18 @@
     font-family:'Nunito', sans-serif;
     font-weight:700;
     font-size: 14px;
-    background:#fff;
-    border: 2px solid var(--border);
+    background: var(--laranja-escuro);
+    border: 2px solid var(--laranja-dark);
     border-bottom-width:4px;
     border-radius: 999px;
     padding: 9px 16px;
     cursor:pointer;
-    color: var(--text);
+    color: #ffffff !important; /* TEXTO EM BRANCO */
     transition: all .12s ease;
   }
-  .chip-option.selected{ border-color: var(--laranja-salmao); background:#FFF8F5; color:var(--laranja-escuro); }
-  .chip-option.correct{ border-color: var(--green-correct); background:#EAF9E7; color:var(--green-correct-dark); }
-  .chip-option.wrong{ border-color: var(--vermelho); background:#FDF0F0; color:var(--vermelho-dark); }
+  .chip-option.selected{ border-color: var(--laranja-dark); background: var(--laranja-salmao); color:#ffffff !important; }
+  .chip-option.correct{ border-color: var(--green-correct-dark); background: var(--green-correct); color:#ffffff !important; }
+  .chip-option.wrong{ border-color: var(--vermelho-dark); background: var(--vermelho); color:#ffffff !important; }
 
   /* build row (Nível 3) */
   .build-row{
@@ -324,19 +315,19 @@
     font-family:'Nunito', sans-serif;
     font-weight:800;
     font-size: 14px;
-    background:#fff;
-    border: 2px solid var(--border);
+    background: var(--laranja-escuro);
+    border: 2px solid var(--laranja-dark);
     border-bottom-width:4px;
     border-radius: 10px;
     padding: 9px 14px;
     cursor:pointer;
-    color: var(--text);
+    color: #ffffff !important; /* TEXTO EM BRANCO */
     transition: transform .08s ease;
   }
   .tile:active{ transform: scale(.94); }
-  .tile.placed{ background:#FFF8F5; border-color: var(--laranja-salmao); color: var(--laranja-escuro); }
-  .tile.placed.correct{ background:#EAF9E7; border-color: var(--green-correct); color: var(--green-correct-dark); }
-  .tile.placed.wrong{ background:#FDF0F0; border-color: var(--vermelho); color: var(--vermelho-dark); }
+  .tile.placed{ background: var(--laranja-salmao); border-color: var(--laranja-dark); color: #ffffff !important; }
+  .tile.placed.correct{ background: var(--green-correct); border-color: var(--green-correct-dark); color: #ffffff !important; }
+  .tile.placed.wrong{ background: var(--vermelho); border-color: var(--vermelho-dark); color: #ffffff !important; }
 
   @keyframes popIn{
     from{ opacity:0; transform: translateY(8px); }
@@ -347,708 +338,3 @@
     *{ animation: none !important; transition: none !important; }
   }
 </style>
-</head>
-<body>
-
-<div id="page">
-  <div id="topbar"></div>
-  <main id="content"></main>
-</div>
-
-<script>
-/* =========================================================
-   DADOS DO JOGO — TEMA: ESCOLA
-   ========================================================= */
-
-const level1Data = [
-  { frBlanked:"Lucas prend son [ 1 ] à dos pour aller dans la classe.",
-    frFull:"Lucas prend son sac à dos pour aller dans la classe.",
-    blank:{ options:["sac","lac","bac"], correct:"sac" },
-    transCorrect:"Lucas pega sua mochila para ir na sala.",
-    transWrong:["Lucas pega seu lápis para ir na sala.","Lucas pega sua mochila para ir ao pátio."] },
-  { frBlanked:"L'enseignant entre dans la classe avec un [ 1 ] d'histoire.",
-    frFull:"L'enseignant entre dans la classe avec un livre d'histoire.",
-    blank:{ options:["livre","lièvre","livret"], correct:"livre" },
-    transCorrect:"O professor entra na sala com um livro de história.",
-    transWrong:["O professor entra na sala com um caderno de história.","O aluno entra na sala com um livro de história."] },
-  { frBlanked:"Il y a une [ 1 ] et un crayon de couleur sur la table.",
-    frFull:"Il y a une gomme et un crayon de couleur sur la table.",
-    blank:{ options:["gomme","pomme","somme"], correct:"gomme" },
-    transCorrect:"Há uma borracha e um lápis de cor em cima da mesa.",
-    transWrong:["Há uma borracha e uma caneta de cor em cima da mesa.","Há uma borracha e um lápis de cor embaixo da mesa."] },
-  { frBlanked:"Sophie aime utiliser un surligneur [ 1 ] pour marquer les lignes importantes.",
-    frFull:"Sophie aime utiliser un surligneur jaune pour marquer les lignes importantes.",
-    blank:{ options:["jaune","faune","jeune"], correct:"jaune" },
-    transCorrect:"Sophie gosta de usar um marca-texto amarelo para marcar as linhas importantes.",
-    transWrong:["Sophie gosta de usar uma caneta amarela para marcar as linhas importantes.","Sophie gosta de usar um marca-texto azul para marcar as linhas importantes."] },
-  { frBlanked:"Pendant la récréation, les enfants vont jouer dans la [ 1 ].",
-    frFull:"Pendant la récréation, les enfants vont jouer dans la cour.",
-    blank:{ options:["cour","cours","court"], correct:"cour" },
-    transCorrect:"Durante o recreio, as crianças vão brincar no pátio.",
-    transWrong:["Durante a aula, as crianças vão brincar no pátio.","Durante o recreio, os professores vão brincar no pátio."] },
-  { frBlanked:"Il écrit la date sur le tableau avec de la [ 1 ].",
-    frFull:"Il écrit la date sur le tableau avec de la craie.",
-    blank:{ options:["craie","vrai","frais"], correct:"craie" },
-    transCorrect:"Ele escreve a data no quadro com giz.",
-    transWrong:["Ele escreve o nome no quadro com giz.","Ele apaga a data no quadro com giz."] },
-  { frBlanked:"Elle range les ciseaux et la [ 1 ] dans la trousse.",
-    frFull:"Elle range les ciseaux et la colle dans la trousse.",
-    blank:{ options:["colle","molle","folle"], correct:"colle" },
-    transCorrect:"Ela guarda a tesoura e a cola no estojo.",
-    transWrong:["Ela guarda a régua e a cola no estojo.","Ela guarda a tesoura e a cola na mochila."] },
-  { frBlanked:"Les garçons font du [ 1 ] dans le gymnase avec l'enseignant.",
-    frFull:"Les garçons font du sport dans le gymnase avec l'enseignant.",
-    blank:{ options:["sport","fort","port"], correct:"sport" },
-    transCorrect:"Os meninos fazem esporte na quadra com o professor.",
-    transWrong:["As meninas fazem esporte na quadra com o professor.","Os meninos fazem esporte na biblioteca com o professor."] },
-  { frBlanked:"On va à la cantine pour prendre le repas après la [ 1 ].",
-    frFull:"On va à la cantine pour prendre le repas après la classe.",
-    blank:{ options:["classe","glace","tasse"], correct:"classe" },
-    transCorrect:"A gente vai à cantina para pegar a refeição depois da aula.",
-    transWrong:["A gente vai à cantina para pegar a refeição antes da aula.","A gente vai à biblioteca para pegar a refeição depois da aula."] },
-  { frBlanked:"Pour l'instant, les filles dessinent sur une [ 1 ] de papier.",
-    frFull:"Pour l'instant, les filles dessinent sur une feuille de papier.",
-    blank:{ options:["feuille","veille","feutre"], correct:"feuille" },
-    transCorrect:"Por enquanto, as meninas desenham em uma folha de papel.",
-    transWrong:["Por enquanto, os meninos desenham em uma folha de papel.","Por enquanto, as meninas escrevem em uma folha de papel."] }
-];
-
-const level2Data = [
-  { frBlanked:"Lucas [ 1 ] un taille-crayon parce que la mine est [ 2 ].",
-    frFull:"Lucas cherche un taille-crayon parce que la mine est cassée.",
-    blank1:{ options:["cherche","perche","berce"], correct:"cherche" },
-    blank2:{ options:["cassée","passée","lassée"], correct:"cassée" },
-    transCorrect:"Lucas procura um apontador porque a ponta está quebrada.",
-    transWrong:["Lucas procura uma borracha porque a ponta está quebrada.","Lucas procura um apontador porque a ponta está nova."] },
-  { frBlanked:"Ils utilisent l'[ 1 ] à la bibliothèque pour faire des [ 2 ].",
-    frFull:"Ils utilisent l'ordinateur à la bibliothèque pour faire des recherches.",
-    blank1:{ options:["ordinateur","orateur","radiateur"], correct:"ordinateur" },
-    blank2:{ options:["recherches","brèches","tranches"], correct:"recherches" },
-    transCorrect:"Eles usam o computador na biblioteca para fazer pesquisas.",
-    transWrong:["Eles usam o computador na sala de aula para fazer pesquisas.","Eles usam o livro na biblioteca para fazer pesquisas."] },
-  { frBlanked:"L'enseignant pose le [ 1 ] et la chemise sur son [ 2 ].",
-    frFull:"L'enseignant pose le classeur et la chemise sur son bureau.",
-    blank1:{ options:["classeur","chasseur","danseur"], correct:"classeur" },
-    blank2:{ options:["bureau","bateau","cadeau"], correct:"bureau" },
-    transCorrect:"O professor coloca o fichário e a pasta sobre sua mesa.",
-    transWrong:["O professor coloca o livro e a pasta sobre sua mesa.","O aluno coloca o fichário e a pasta sobre sua mesa."] },
-  { frBlanked:"Elle préfère [ 1 ] des lignes droites avec une [ 2 ].",
-    frFull:"Elle préfère tracer des lignes droites avec une règle.",
-    blank1:{ options:["tracer","placer","chasser"], correct:"tracer" },
-    blank2:{ options:["règle","aigle","zèle"], correct:"règle" },
-    transCorrect:"Ela prefere traçar linhas retas com uma régua.",
-    transWrong:["Ela prefere traçar linhas curvas com uma régua.","Ela prefere apagar linhas retas com uma régua."] },
-  { frBlanked:"Les amis [ 1 ] ensemble vers le bureau du [ 2 ].",
-    frFull:"Les amis marchent ensemble vers le bureau du directeur.",
-    blank1:{ options:["marchent","marquent","manquent"], correct:"marchent" },
-    blank2:{ options:["directeur","correcteur","inspecteur"], correct:"directeur" },
-    transCorrect:"Os amigos andam juntos em direção à diretoria.",
-    transWrong:["Os amigos correm juntos em direção à diretoria.","Os professores andam juntos em direção à diretoria."] },
-  { frBlanked:"Il a besoin d'un stylo [ 1 ] et d'un feutre [ 2 ] pour écrire.",
-    frFull:"Il a besoin d'un stylo bleu et d'un feutre noir pour écrire.",
-    blank1:{ options:["bleu","peu","jeu"], correct:"bleu" },
-    blank2:{ options:["noir","soir","voir"], correct:"noir" },
-    transCorrect:"Ele precisa de uma caneta azul e de uma canetinha preta para escrever.",
-    transWrong:["Ele precisa de um lápis azul e de uma canetinha preta para escrever.","Ele precisa de uma caneta vermelha e de uma canetinha preta para escrever."] },
-  { frBlanked:"C'est le [ 1 ] de français de Sophie sur la [ 2 ].",
-    frFull:"C'est le cahier de français de Sophie sur la chaise.",
-    blank1:{ options:["cahier","papier","métier"], correct:"cahier" },
-    blank2:{ options:["chaise","fraise","braise"], correct:"chaise" },
-    transCorrect:"É o caderno de francês de Sophie sobre a cadeira.",
-    transWrong:["É o livro de francês de Sophie sobre a cadeira.","É o caderno de inglês de Sophie sobre a cadeira."] },
-  { frBlanked:"Pendant l'Éducation Physique et Sportive, on [ 1 ] du sport [ 2 ].",
-    frFull:"Pendant l'Éducation Physique et Sportive, on fait du sport ensemble.",
-    blank1:{ options:["fait","lait","sait"], correct:"fait" },
-    blank2:{ options:["ensemble","ressemble","assemble"], correct:"ensemble" },
-    transCorrect:"Durante a Educação Física, a gente faz esporte juntos.",
-    transWrong:["Durante a Educação Física, a gente faz esporte sozinho.","Durante o recreio, a gente faz esporte juntos."] },
-  { frBlanked:"Elle range ses [ 1 ] dans le sac à dos [ 2 ] la chaise.",
-    frFull:"Elle range ses affaires dans le sac à dos derrière la chaise.",
-    blank1:{ options:["affaires","affiches","affamées"], correct:"affaires" },
-    blank2:{ options:["derrière","première","lumière"], correct:"derrière" },
-    transCorrect:"Ela guarda seus pertences na mochila atrás da cadeira.",
-    transWrong:["Ela guarda seus pertences na mochila na frente da cadeira.","Ele guarda seus pertences na mochila atrás da cadeira."] },
-  { frBlanked:"L'enseignant va [ 1 ] les [ 2 ] dans le cahier.",
-    frFull:"L'enseignant va corriger les erreurs dans le cahier.",
-    blank1:{ options:["corriger","diriger","obliger"], correct:"corriger" },
-    blank2:{ options:["erreurs","chaleurs","couleurs"], correct:"erreurs" },
-    transCorrect:"O professor vai corrigir os erros no caderno.",
-    transWrong:["O professor vai corrigir os erros no quadro.","O aluno vai corrigir os erros no caderno."] }
-];
-
-const level3Data = [
-  { pt:"As crianças entram na sala dos professores com o professor.",
-    correctTokens:["Les","enfants","entrent","dans","la","salle","des","maîtres","avec","l'enseignant."],
-    distractors:["mètres","rentrent"] },
-  { pt:"Hoje, a gente vai estudar o livro de história na biblioteca.",
-    correctTokens:["Aujourd'hui,","on","va","étudier","le","livre","d'histoire","à","la","bibliothèque."],
-    distractors:["lièvre","publier"] },
-  { pt:"Ele coloca um computador grande perto da mesa.",
-    correctTokens:["Il","installe","un","grand","ordinateur","près","de","la","table."],
-    distractors:["fable","grain"] },
-  { pt:"Às vezes, as crianças visitam a secretaria para perguntar a hora.",
-    correctTokens:["Parfois,","les","enfants","visitent","le","secrétariat","pour","demander","l'heure."],
-    distractors:["leur","commander"] },
-  { pt:"As crianças adoram ler um livro depois da refeição.",
-    correctTokens:["Les","enfants","adorent","lire","un","livre","après","le","repas."],
-    distractors:["rire","repos"] },
-  { pt:"Os meninos e as meninas vão aos banheiros durante o recreio.",
-    correctTokens:["Les","garçons","et","les","filles","vont","aux","toilettes","pendant","la","récréation."],
-    distractors:["billes","sont"] },
-  { pt:"O menino escreve na agenda com um giz de cera.",
-    correctTokens:["Le","garçon","écrit","dans","l'agenda","avec","un","crayon","de","cire."],
-    distractors:["tire","rayon"] },
-  { pt:"As meninas gostam de brincar com os amigos perto do ginásio.",
-    correctTokens:["Les","filles","aiment","jouer","avec","les","amis","près","du","gymnase."],
-    distractors:["louer","tapis"] },
-  { pt:"Sophie tem um marca-texto amarelo, mas Lucas prefere a canetinha preta.",
-    correctTokens:["Sophie","a","un","surligneur","jaune","mais","Lucas","préfère","le","feutre","noir."],
-    distractors:["faune","soir"] },
-  { pt:"Cada criança coloca a régua e a borracha sobre a mesa.",
-    correctTokens:["Chaque","enfant","pose","la","règle","et","la","gomme","sur","la","table."],
-    distractors:["aigle","pomme"] }
-];
-
-/* =========================================================
-   ESTADO GLOBAL
-   ========================================================= */
-const state = {
-  screen: 'home',
-  level: 1,
-  qIndex: 0,
-  totalScore: 0,
-  levelScores: {1:0, 2:0, 3:0},
-  l1: null,
-  l2: null,
-  l3: null
-};
-
-function shuffle(arr){
-  const a = [...arr];
-  for(let i=a.length-1; i>0; i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-function formatScore(n){
-  const rounded = Math.round(n*10)/10;
-  return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
-}
-
-/* =========================================================
-   SONOPLASTIA
-   ========================================================= */
-const SOUND_FILES = {
-  click: 'click.mp3',
-  ok: 'ok.mp3',
-  falha: 'falha.mp3',
-  level: 'level.mp3',
-  levelfail: 'levelfail.mp3',
-  win: 'win01.mp3',
-  losing: 'losing.mp3'
-};
-
-function playSound(name){
-  try{
-    const src = SOUND_FILES[name];
-    if(!src) return;
-    const audio = new Audio(src);
-    audio.play().catch(()=>{});
-  }catch(e){}
-}
-
-/* =========================================================
-   NAVEGAÇÃO E REGRAS
-   ========================================================= */
-function levelMaxPts(lvl){ return lvl===1?20:(lvl===2?35:45); }
-function levelPct(lvl){ return (state.levelScores[lvl]/levelMaxPts(lvl))*100; }
-
-function startGame(){
-  playSound('click');
-  state.screen='game'; state.level=1; state.qIndex=0;
-  state.totalScore=0; state.levelScores={1:0,2:0,3:0};
-  setupCurrentQuestion();
-  render();
-}
-
-function setupCurrentQuestion(){
-  if(state.level===1) setupLevel1Question(state.qIndex);
-  else if(state.level===2) setupLevel2Question(state.qIndex);
-  else setupLevel3Question(state.qIndex);
-}
-
-function nextQuestion(){
-  playSound('click');
-  state.qIndex++;
-  if(state.qIndex>=10){
-    state.screen='levelComplete';
-    playSound(levelPct(state.level)>=70 ? 'level' : 'levelfail');
-    render();
-    return;
-  }
-  setupCurrentQuestion();
-  render();
-}
-
-function startNextLevel(){
-  playSound('click');
-  state.level++; state.qIndex=0; state.screen='game';
-  setupCurrentQuestion();
-  render();
-}
-
-function goFinal(){
-  playSound('click');
-  state.screen='final';
-  playSound(state.totalScore>=75 ? 'win' : 'losing');
-  render();
-}
-
-function resetGame(){
-  playSound('click');
-  state.screen='home'; state.level=1; state.qIndex=0;
-  state.totalScore=0; state.levelScores={1:0,2:0,3:0};
-  render();
-}
-
-/* =========================================================
-   RENDER PRINCIPAL
-   ========================================================= */
-function render(){
-  renderTopbar();
-  const content = document.getElementById('content');
-  if(state.screen==='home'){ content.innerHTML = homeTemplate(); }
-  else if(state.screen==='game'){
-    if(state.level===1) renderLevel1();
-    else if(state.level===2) renderLevel2();
-    else renderLevel3();
-  }
-  else if(state.screen==='levelComplete'){ content.innerHTML = levelCompleteTemplate(); }
-  else if(state.screen==='final'){ content.innerHTML = finalTemplate(); }
-}
-
-function renderTopbar(){
-  const bar = document.getElementById('topbar');
-  const scoreTxt = formatScore(state.totalScore);
-  let progressPct = 0;
-  let levelLabel = 'galolingo';
-  if(state.screen==='game'){
-    const completed = (state.level-1)*10 + state.qIndex;
-    progressPct = Math.round((completed/30)*100);
-    levelLabel = `nível ${state.level} · questão ${state.qIndex+1}/10`;
-  } else if(state.screen==='levelComplete'){
-    progressPct = Math.round((state.level*10/30)*100);
-    levelLabel = `nível ${state.level} concluído`;
-  } else if(state.screen==='final'){
-    progressPct = 100;
-    levelLabel = 'jogo concluído';
-  } else {
-    levelLabel = 'pronto para começar?';
-  }
-  bar.innerHTML = `
-    <div class="topbar-row">
-      <span class="level-label">${levelLabel}</span>
-      <span class="score-badge">🏆 ${scoreTxt}<span class="score-max">/100</span></span>
-    </div>
-    <div class="progress-track"><div class="progress-fill" style="width:${progressPct}%"></div></div>
-  `;
-}
-
-/* =========================================================
-   TELAS DE ESTRUTURA (HOME / LEVEL / FINAL)
-   ========================================================= */
-function homeTemplate(){
-  return `
-    <div class="home-card">
-      <img src="images/galo.png" alt="Galo Galolingo" class="mascot-img">
-      <h1>galolingo</h1>
-      <p class="home-sub">Tema: ESCOLA. Complete os 3 níveis e conquiste até <strong>100 pontos</strong>!</p>
-      <div class="level-preview">
-        <div class="level-chip"><span class="chip-num">1</span> Complete a Lacuna <span class="chip-pts">20 pts</span></div>
-        <div class="level-chip"><span class="chip-num">2</span> Lacunas Duplas <span class="chip-pts">35 pts</span></div>
-        <div class="level-chip"><span class="chip-num">3</span> Monte a Frase <span class="chip-pts">45 pts</span></div>
-      </div>
-    </div>
-    <div class="footer-space"></div>
-    <button class="btn btn-block" onclick="startGame()">começar</button>
-  `;
-}
-
-function levelCompleteTemplate(){
-  const lvl = state.level;
-  const max = levelMaxPts(lvl);
-  const earned = state.levelScores[lvl];
-  const pct = levelPct(lvl);
-  const passed = pct>=70;
-  
-  /* Uso de happygalo.png se for bem e sadgalo.png se for mal */
-  const mascotImg = passed ? 'images/happygalo.png' : 'images/sadgalo.png';
-  const moodMsg = passed
-    ? 'Muito bem, esse galo está orgulhoso de você!'
-    : 'Esse galo ficou meio apreensivo... vamos revisar mais um pouco!';
-  const isLast = lvl===3;
-  return `
-    <div class="home-card">
-      <img src="${mascotImg}" alt="Galo Galolingo" class="mascot-img">
-      <h1>nível ${lvl} concluído!</h1>
-      <p class="home-sub">Você fez <strong>${formatScore(earned)} / ${max}</strong> pontos neste nível (${Math.round(pct)}%).</p>
-      <p class="home-sub">${moodMsg}</p>
-      <p class="home-sub">Pontuação total: <strong>${formatScore(state.totalScore)} / 100</strong></p>
-    </div>
-    <div class="footer-space"></div>
-    <button class="btn btn-block" onclick="${isLast ? 'goFinal()' : 'startNextLevel()'}">
-      ${isLast ? 'ver resultado final' : 'continuar para o nível '+(lvl+1)}
-    </button>
-  `;
-}
-
-function finalTemplate(){
-  const total = state.totalScore;
-  const passed = total>=75;
-  
-  /* Uso de happygalo.png se for bem e sadgalo.png se for mal */
-  const mascotImg = passed ? 'images/happygalo.png' : 'images/sadgalo.png';
-  const msg = passed
-    ? 'Parabéns! Esse galo está cantando de alegria — você mandou muito bem em francês! 🎉'
-    : 'Esse galo ficou super triste... capriche mais um pouco na próxima tentativa e tenha mais dedicação nos estudos! 💪';
-  return `
-    <div class="home-card">
-      <img src="${mascotImg}" alt="Galo Galolingo" class="mascot-img">
-      <h1>resultado final</h1>
-      <p class="final-score">${formatScore(total)}<span> / 100</span></p>
-      <p class="home-sub">${msg}</p>
-      <div class="breakdown">
-        <div class="breakdown-row"><span>Nível 1 — Lacuna</span><span>${formatScore(state.levelScores[1])} / 20</span></div>
-        <div class="breakdown-row"><span>Nível 2 — Lacunas</span><span>${formatScore(state.levelScores[2])} / 35</span></div>
-        <div class="breakdown-row"><span>Nível 3 — Monte a Frase</span><span>${formatScore(state.levelScores[3])} / 45</span></div>
-      </div>
-    </div>
-    <div class="footer-space"></div>
-    <button class="btn btn-block" onclick="resetGame()">jogar novamente</button>
-  `;
-}
-
-function blankSpanHtml(selIdx, options, correctWord, checked, num){
-  if(selIdx===null) return `<span class="blank">${num}</span>`;
-  const word = options[selIdx];
-  let cls = 'blank blank-filled';
-  if(checked) cls = 'blank ' + (word===correctWord ? 'blank-correct' : 'blank-wrong');
-  return `<span class="${cls}">${word}</span>`;
-}
-
-/* =========================================================
-   NÍVEL 1 — LÓGICA E INTERFACE
-   ========================================================= */
-function setupLevel1Question(idx){
-  const q = level1Data[idx];
-  state.l1 = {
-    step:'A',
-    bOptions: shuffle(q.blank.options),
-    bSelected:null, checkedA:false,
-    trOptions: shuffle([{text:q.transCorrect,correct:true}, ...q.transWrong.map(w=>({text:w,correct:false}))]),
-    trSelected:null, checkedB:false
-  };
-}
-
-function renderLevel1(){
-  const q = level1Data[state.qIndex];
-  const s = state.l1;
-  const content = document.getElementById('content');
-
-  if(s.step==='A'){
-    const span = blankSpanHtml(s.bSelected, s.bOptions, q.blank.correct, s.checkedA, 1);
-    const sentence = q.frBlanked.replace('[ 1 ]', span);
-
-    const btns = s.bOptions.map((w,i)=>{
-      let cls='chip-option';
-      if(s.checkedA){ if(w===q.blank.correct) cls+=' correct'; else if(i===s.bSelected) cls+=' wrong'; }
-      else if(i===s.bSelected){ cls+=' selected'; }
-      return `<button class="${cls}" ${s.checkedA?'disabled':''} onclick="selectL1Blank(${i})">${w}</button>`;
-    }).join('');
-
-    const btnLabel = s.checkedA ? 'continuar' : 'verificar lacuna';
-    const btnOnclick = s.checkedA ? 'advanceL1Step()' : 'checkL1Blank()';
-    const btnDisabled = !s.checkedA && s.bSelected===null;
-
-    content.innerHTML = `
-      <div class="question-card">
-        <p class="instruction">Complete a lacuna</p>
-        <p class="fr-sentence">${sentence}</p>
-        <p class="chip-label">Lacuna</p>
-        <div class="chip-row">${btns}</div>
-      </div>
-      <div class="footer-space"></div>
-      <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
-    `;
-  } else {
-    const trbtns = s.trOptions.map((o,i)=>{
-      let cls='option-card';
-      if(s.checkedB){ if(o.correct) cls+=' correct'; else if(i===s.trSelected) cls+=' wrong'; }
-      else if(i===s.trSelected){ cls+=' selected'; }
-      return `<button class="${cls}" ${s.checkedB?'disabled':''} onclick="selectL1Translation(${i})">${o.text}</button>`;
-    }).join('');
-
-    const btnLabel = s.checkedB ? 'próxima questão' : 'verificar tradução';
-    const btnOnclick = s.checkedB ? 'nextQuestion()' : 'checkL1Translation()';
-    const btnDisabled = !s.checkedB && s.trSelected===null;
-
-    content.innerHTML = `
-      <div class="question-card">
-        <p class="instruction">Escolha a tradução correta</p>
-        <p class="fr-sentence">${q.frFull}</p>
-        <div class="options-grid">${trbtns}</div>
-      </div>
-      <div class="footer-space"></div>
-      <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
-    `;
-  }
-}
-
-function selectL1Blank(i){ playSound('click'); state.l1.bSelected=i; renderLevel1(); }
-function checkL1Blank(){
-  const q = level1Data[state.qIndex];
-  const s = state.l1;
-  s.checkedA = true;
-  const isCorrect = s.bOptions[s.bSelected] === q.blank.correct;
-  if(isCorrect){ playSound('ok'); state.levelScores[1]+=1; state.totalScore+=1; }
-  else { playSound('falha'); }
-  renderLevel1();
-}
-function advanceL1Step(){ playSound('click'); state.l1.step='B'; renderLevel1(); }
-
-function selectL1Translation(i){ playSound('click'); state.l1.trSelected=i; renderLevel1(); }
-function checkL1Translation(){
-  const s = state.l1;
-  s.checkedB = true;
-  const isCorrect = s.trOptions[s.trSelected].correct;
-  if(isCorrect){ playSound('ok'); state.levelScores[1]+=1; state.totalScore+=1; }
-  else { playSound('falha'); }
-  renderLevel1();
-}
-
-/* =========================================================
-   NÍVEL 2 — LÓGICA E INTERFACE
-   ========================================================= */
-function setupLevel2Question(idx){
-  const q = level2Data[idx];
-  state.l2 = {
-    step:'A',
-    b1Options: shuffle(q.blank1.options), b1Selected:null,
-    b2Options: shuffle(q.blank2.options), b2Selected:null,
-    checkedA:false,
-    trOptions: shuffle([{text:q.transCorrect,correct:true}, ...q.transWrong.map(w=>({text:w,correct:false}))]),
-    trSelected:null, checkedB:false
-  };
-}
-
-function renderLevel2(){
-  const q = level2Data[state.qIndex];
-  const s = state.l2;
-  const content = document.getElementById('content');
-
-  if(s.step==='A'){
-    const span1 = blankSpanHtml(s.b1Selected, s.b1Options, q.blank1.correct, s.checkedA, 1);
-    const span2 = blankSpanHtml(s.b2Selected, s.b2Options, q.blank2.correct, s.checkedA, 2);
-    const sentence = q.frBlanked.replace('[ 1 ]', span1).replace('[ 2 ]', span2);
-
-    const btns1 = s.b1Options.map((w,i)=>{
-      let cls='chip-option';
-      if(s.checkedA){ if(w===q.blank1.correct) cls+=' correct'; else if(i===s.b1Selected) cls+=' wrong'; }
-      else if(i===s.b1Selected){ cls+=' selected'; }
-      return `<button class="${cls}" ${s.checkedA?'disabled':''} onclick="selectL2Blank(1,${i})">${w}</button>`;
-    }).join('');
-
-    const btns2 = s.b2Options.map((w,i)=>{
-      let cls='chip-option';
-      if(s.checkedA){ if(w===q.blank2.correct) cls+=' correct'; else if(i===s.b2Selected) cls+=' wrong'; }
-      else if(i===s.b2Selected){ cls+=' selected'; }
-      return `<button class="${cls}" ${s.checkedA?'disabled':''} onclick="selectL2Blank(2,${i})">${w}</button>`;
-    }).join('');
-
-    const btnLabel = s.checkedA ? 'continuar' : 'verificar lacunas';
-    const btnOnclick = s.checkedA ? 'advanceL2Step()' : 'checkL2Blanks()';
-    const btnDisabled = !s.checkedA && (s.b1Selected===null || s.b2Selected===null);
-
-    content.innerHTML = `
-      <div class="question-card">
-        <p class="instruction">Complete as duas lacunas</p>
-        <p class="fr-sentence">${sentence}</p>
-        <p class="chip-label">Lacuna 1</p>
-        <div class="chip-row">${btns1}</div>
-        <p class="chip-label">Lacuna 2</p>
-        <div class="chip-row">${btns2}</div>
-      </div>
-      <div class="footer-space"></div>
-      <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
-    `;
-  } else {
-    const trbtns = s.trOptions.map((o,i)=>{
-      let cls='option-card';
-      if(s.checkedB){ if(o.correct) cls+=' correct'; else if(i===s.trSelected) cls+=' wrong'; }
-      else if(i===s.trSelected){ cls+=' selected'; }
-      return `<button class="${cls}" ${s.checkedB?'disabled':''} onclick="selectL2Translation(${i})">${o.text}</button>`;
-    }).join('');
-
-    const btnLabel = s.checkedB ? 'próxima questão' : 'verificar tradução';
-    const btnOnclick = s.checkedB ? 'nextQuestion()' : 'checkL2Translation()';
-    const btnDisabled = !s.checkedB && s.trSelected===null;
-
-    content.innerHTML = `
-      <div class="question-card">
-        <p class="instruction">Escolha a tradução correta</p>
-        <p class="fr-sentence">${q.frFull}</p>
-        <div class="options-grid">${trbtns}</div>
-      </div>
-      <div class="footer-space"></div>
-      <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
-    `;
-  }
-}
-
-function selectL2Blank(num, i){
-  playSound('click');
-  if(num===1) state.l2.b1Selected=i;
-  else state.l2.b2Selected=i;
-  renderLevel2();
-}
-
-function checkL2Blanks(){
-  const q = level2Data[state.qIndex];
-  const s = state.l2;
-  s.checkedA = true;
-  const is1Ok = s.b1Options[s.b1Selected] === q.blank1.correct;
-  const is2Ok = s.b2Options[s.b2Selected] === q.blank2.correct;
-  
-  let pts = 0;
-  if(is1Ok) pts += 1;
-  if(is2Ok) pts += 1;
-  
-  state.levelScores[2] += pts;
-  state.totalScore += pts;
-
-  if(is1Ok && is2Ok) playSound('ok');
-  else playSound('falha');
-  renderLevel2();
-}
-
-function advanceL2Step(){ playSound('click'); state.l2.step='B'; renderLevel2(); }
-
-function selectL2Translation(i){ playSound('click'); state.l2.trSelected=i; renderLevel2(); }
-
-function checkL2Translation(){
-  const s = state.l2;
-  s.checkedB = true;
-  const isCorrect = s.trOptions[s.trSelected].correct;
-  if(isCorrect){
-    playSound('ok');
-    state.levelScores[2] += 1.5;
-    state.totalScore += 1.5;
-  } else {
-    playSound('falha');
-  }
-  renderLevel2();
-}
-
-/* =========================================================
-   NÍVEL 3 — LÓGICA E INTERFACE
-   ========================================================= */
-function setupLevel3Question(idx){
-  const q = level3Data[idx];
-  const allTokens = [...q.correctTokens, ...q.distractors];
-  
-  const tiles = allTokens.map((txt, id) => ({ id, text: txt }));
-
-  state.l3 = {
-    bank: shuffle(tiles),
-    placed: [],
-    checked: false,
-    isCorrect: false
-  };
-}
-
-function renderLevel3(){
-  const q = level3Data[state.qIndex];
-  const s = state.l3;
-  const content = document.getElementById('content');
-
-  let rowCls = 'build-row';
-  if(s.checked) rowCls += s.isCorrect ? ' row-correct' : ' row-wrong';
-
-  const placedHtml = s.placed.length === 0
-    ? `<span class="build-placeholder">Toque nas palavras abaixo para construir a frase...</span>`
-    : s.placed.map(t => {
-        let cls = 'tile placed';
-        if(s.checked) cls += s.isCorrect ? ' correct' : ' wrong';
-        return `<button class="${cls}" ${s.checked?'disabled':''} onclick="unplaceTile(${t.id})">${t.text}</button>`;
-      }).join('');
-
-  const bankHtml = s.bank.map(t => {
-    const isUsed = s.placed.some(p => p.id === t.id);
-    if(isUsed) return '';
-    return `<button class="tile" ${s.checked?'disabled':''} onclick="placeTile(${t.id})">${t.text}</button>`;
-  }).join('');
-
-  const gabaritoHtml = (s.checked && !s.isCorrect)
-    ? `<div class="gabarito"><strong>Correto:</strong> ${q.correctTokens.join(' ')}</div>`
-    : '';
-
-  const btnLabel = s.checked ? 'próxima questão' : 'verificar frase';
-  const btnOnclick = s.checked ? 'nextQuestion()' : 'checkL3()';
-  const btnDisabled = !s.checked && s.placed.length === 0;
-
-  content.innerHTML = `
-    <div class="question-card">
-      <p class="instruction">Traduza para o francês</p>
-      <div class="pt-sentence">${q.pt}</div>
-      <div class="${rowCls}">${placedHtml}</div>
-      ${gabaritoHtml}
-      <div class="bank-row">${bankHtml}</div>
-    </div>
-    <div class="footer-space"></div>
-    <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
-  `;
-}
-
-function placeTile(id){
-  if(state.l3.checked) return;
-  playSound('click');
-  const item = state.l3.bank.find(t => t.id === id);
-  if(item && !state.l3.placed.some(p => p.id === id)){
-    state.l3.placed.push(item);
-    renderLevel3();
-  }
-}
-
-function unplaceTile(id){
-  if(state.l3.checked) return;
-  playSound('click');
-  state.l3.placed = state.l3.placed.filter(p => p.id !== id);
-  renderLevel3();
-}
-
-function checkL3(){
-  const q = level3Data[state.qIndex];
-  const s = state.l3;
-  s.checked = true;
-
-  const builtText = s.placed.map(t => t.text).join(' ');
-  const targetText = q.correctTokens.join(' ');
-
-  s.isCorrect = (builtText === targetText);
-
-  if(s.isCorrect){
-    playSound('ok');
-    state.levelScores[3] += 4.5;
-    state.totalScore += 4.5;
-  } else {
-    playSound('falha');
-  }
-  renderLevel3();
-}
-
-window.onload = () => { render(); };
-</script>
-</body>
-</html>
