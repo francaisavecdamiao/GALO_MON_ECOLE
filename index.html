@@ -128,13 +128,7 @@
     gap:16px;
   }
 
-  /* =========================================================
-     REGRA GLOBAL: QUALQUER ELEMENTO COM FUNDO LARANJA (OU
-     PREENCHIDO/CORRETO/ERRADO) TEM SEMPRE TEXTO BRANCO.
-     Esta lista cobre TODOS os retângulos/pílulas laranjas do
-     app: botões principais, opções, chips, letras montadas,
-     lacunas preenchidas, tile do teclado de letras, etc.
-     ========================================================= */
+  /* REGRA GLOBAL PARA CORES */
   .btn,
   .option-card,
   .chip-option,
@@ -155,27 +149,6 @@
   .chip-option.wrong {
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
-  }
-
-  .btn:hover,
-  .btn:active,
-  .btn:focus,
-  .btn:disabled,
-  .option-card:hover:not(:disabled),
-  .option-card:active,
-  .option-card:focus,
-  .option-card:disabled,
-  .chip-option:hover:not(:disabled),
-  .chip-option:active,
-  .chip-option:focus,
-  .chip-option:disabled,
-  .audio-btn:hover,
-  .audio-btn:active,
-  .audio-btn:focus,
-  .letter-tile:hover:not(.disabled),
-  .letter-tile:active,
-  .letter-tile:focus {
-    color: #ffffff !important;
   }
 
   .btn{
@@ -257,13 +230,17 @@
     font-size:14px;
   }
 
-  /* CARDS DE QUESTÕES */
+  /* CARDS DE QUESTÕES (Centralização Organizada) */
   .question-card{
     background: var(--card);
     border: 2px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 20px;
+    padding: 22px 18px;
     animation: popIn .3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
   .instruction{
     font-size:13px;
@@ -271,35 +248,43 @@
     letter-spacing: .5px;
     color: var(--text-light);
     font-weight:700;
-    margin:0 0 8px;
+    margin:0 0 12px;
+    width: 100%;
+    text-align: center;
   }
   .fr-sentence{
-    font-size: 20px;
+    font-size: 19px;
     color: var(--text);
-    line-height:1.5;
-    margin: 0 0 16px;
+    line-height: 1.6;
+    margin: 4px 0 18px;
+    width: 100%;
+    text-align: center;
   }
   .pt-sentence{
-    font-size: 18px;
+    font-size: 17px;
     color: var(--text);
-    line-height:1.4;
+    line-height: 1.5;
     margin: 0 0 16px;
     background: #F0FAFC;
     border-left: 4px solid var(--azul-dark);
-    padding: 10px 14px;
+    padding: 12px 14px;
     border-radius: 8px;
+    width: 100%;
+    text-align: center;
   }
 
   /* PAINEL DE ÁUDIO */
   .audio-controls {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
     background: #FFF8F5;
     border: 2px solid var(--laranja-salmao);
     border-radius: var(--radius-md);
     padding: 10px 14px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
+    width: 100%;
   }
   .audio-btn {
     background: var(--laranja-escuro);
@@ -321,6 +306,7 @@
     flex-direction: column;
     gap: 2px;
     flex: 1;
+    max-width: 140px;
   }
   .speed-label {
     font-size: 11px;
@@ -337,12 +323,12 @@
   }
 
   /* BOTÕES DE OPÇÃO / TRADUÇÃO */
-  .options-grid{ display:flex; flex-direction:column; gap:10px; }
+  .options-grid{ display:flex; flex-direction:column; gap:10px; width: 100%; }
   .option-card{
     font-family:'Nunito', sans-serif;
     font-weight:700;
     font-size: 15px;
-    text-align:left;
+    text-align:center;
     background: var(--laranja-escuro);
     border: 2px solid var(--laranja-dark);
     border-bottom-width:4px;
@@ -351,6 +337,7 @@
     color: #ffffff !important;
     cursor:pointer;
     transition: all .12s ease;
+    width: 100%;
   }
   .option-card:hover:not(:disabled){ background: var(--laranja-dark); }
   .option-card.selected{ border-color: var(--laranja-dark); background: var(--laranja-salmao); color: #ffffff !important; }
@@ -378,8 +365,10 @@
   .chip-label{
     font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px;
     color: var(--text-light); margin: 14px 0 8px;
+    width: 100%;
+    text-align: left;
   }
-  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; width: 100%; }
   .chip-option{
     font-family:'Nunito', sans-serif;
     font-weight:700;
@@ -397,32 +386,33 @@
   .chip-option.correct{ border-color: var(--green-correct-dark); background: var(--green-correct); color:#ffffff !important; }
   .chip-option.wrong{ border-color: var(--vermelho-dark); background: var(--vermelho); color:#ffffff !important; }
 
-  /* COMPONENTES EXCLUSIVOS DO NÍVEL 3 */
+  /* COMPONENTES EXCLUSIVOS DO NÍVEL 3 (Ajustados para não estourar a tela) */
   .word-target-box {
     display: inline-flex;
-    align-items: center;
-    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3px;
     background: #F3F4F6;
     border: 2px dashed #D1D5DB;
-    padding: 4px 8px;
+    padding: 6px 6px;
     border-radius: 12px;
     vertical-align: middle;
-    margin: 0 2px;
+    margin: 0 4px;
+    max-width: 100%;
   }
   
   .letter-box {
-    width: 32px;
-    height: 38px;
+    width: 26px;
+    height: 32px;
     background: #E5E7EB;
     border: 2px solid #D1D5DB;
-    border-radius: 8px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 800;
     color: var(--text);
-    /* NÃO forçar maiúsculas — preserva a capitalização original da palavra */
     cursor: pointer;
     user-select: none;
     transition: all .15s ease;
@@ -445,13 +435,13 @@
 
   .letter-tile {
     font-family: 'Feather Bold', 'Nunito', sans-serif;
-    font-size: 16px;
+    font-size: 15px;
     background: var(--laranja-escuro);
     border: 2px solid var(--laranja-dark);
     border-bottom-width: 4px;
-    border-radius: 10px;
-    min-width: 36px;
-    height: 40px;
+    border-radius: 9px;
+    min-width: 32px;
+    height: 36px;
     cursor: pointer;
     color: #ffffff !important;
     display: flex;
@@ -473,6 +463,8 @@
     border-radius: var(--radius-sm);
     padding: 8px 12px;
     margin: 12px 0 0;
+    width: 100%;
+    text-align: center;
   }
 
   @keyframes popIn{
@@ -482,37 +474,6 @@
 
   @media (prefers-reduced-motion: reduce){
     *{ animation: none !important; transition: none !important; }
-  }
-
-  /* ÚLTIMA CAMADA DE FORÇA ABSOLUTA: texto sempre BRANCO em
-     absolutamente TODOS os botões e retângulos/pílulas laranjas,
-     preenchidos, corretos ou errados — sem exceção. */
-  button,
-  button.btn,
-  button.option-card,
-  button.chip-option,
-  button.audio-btn,
-  button.letter-tile,
-  span.letter-box.filled,
-  span.letter-box.correct,
-  span.letter-box.wrong,
-  span.blank.blank-filled,
-  span.blank.blank-correct,
-  span.blank.blank-wrong,
-  .chip-num {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-  }
-
-  /* Garante também em todos os estados possíveis */
-  button:hover,
-  button:active,
-  button:focus,
-  button:disabled,
-  button.selected,
-  button.correct,
-  button.wrong {
-    color: #ffffff !important;
   }
 </style>
 </head>
@@ -525,7 +486,7 @@
 
 <script>
 /* =========================================================
-   DADOS DOS NÍVEIS COM OS ARQUIVOS MP3 EXATOS
+   DADOS DOS NÍVEIS
    ========================================================= */
 
 const level1Data = [
@@ -755,7 +716,7 @@ const state = {
   qIndex: 0,
   totalScore: 0,
   levelScores: {1:0, 2:0, 3:0},
-  audioSpeed: 1.0,
+  audioSpeed: 0.8, /* Ajustado para mais suave e lento */
   voices: [],
   maleVoice: null,
   l1: null,
@@ -778,7 +739,7 @@ function formatScore(n){
 }
 
 /* =========================================================
-   SISTEMA DE ÁUDIO E SPEECH (VOZ MASCULINA APENAS PARA PALAVRAS)
+   SISTEMA DE ÁUDIO E SPEECH MAIS SUAVE
    ========================================================= */
 const SOUND_FILES = {
   click: 'click.mp3',
@@ -800,11 +761,6 @@ function initVoices() {
         v.lang.toLowerCase().includes('fr-ca')
       );
 
-      // Nomes conhecidos de vozes MASCULINAS em francês (por navegador/SO)
-      // Chrome/Edge Windows: Microsoft Claude, Microsoft Paul, Microsoft Henri
-      // Chrome: Google français (neutro/masculino)
-      // Safari/macOS/iOS: Thomas, Nicolas
-      // Android: geralmente "fr-fr-x-frd-local" ou similares
       const maleNames = [
         'thomas', 'nicolas', 'paul', 'claude', 'henri', 'jacques', 'pierre',
         'françois', 'francois', 'male', 'homme', 'man',
@@ -812,19 +768,16 @@ function initVoices() {
         'google français', 'google francais'
       ];
 
-      // Nomes FEMININOS para excluir
       const femaleNames = [
         'amélie', 'amelie', 'julie', 'hortense', 'marie', 'claire', 'audrey',
         'female', 'femme', 'woman', ' Denise', 'denise'
       ];
 
-      // 1) Tenta achar voz masculina explícita
       let chosen = frVoices.find(v => {
         const n = v.name.toLowerCase();
         return maleNames.some(m => n.includes(m)) && !femaleNames.some(f => n.includes(f));
       });
 
-      // 2) Se não achar, pega qualquer voz francesa que NÃO seja feminina conhecida
       if (!chosen) {
         chosen = frVoices.find(v => {
           const n = v.name.toLowerCase();
@@ -832,27 +785,17 @@ function initVoices() {
         });
       }
 
-      // 3) Fallback: primeira voz francesa disponível
       if (!chosen) {
         chosen = frVoices[0] || null;
       }
 
       state.maleVoice = chosen;
-
-      // Debug opcional (abre o console do navegador para ver)
-      if (chosen) {
-        console.log('Voz francesa selecionada (preferência masculina):', chosen.name, chosen.lang);
-      } else {
-        console.warn('Nenhuma voz francesa encontrada. Usando voz padrão do sistema.');
-      }
     };
 
     updateVoices();
-    // Alguns navegadores carregam as vozes de forma assíncrona
     if (window.speechSynthesis.onvoiceschanged !== undefined) {
       window.speechSynthesis.onvoiceschanged = updateVoices;
     }
-    // Força atualização após um tempo (Chrome às vezes atrasa)
     setTimeout(updateVoices, 500);
     setTimeout(updateVoices, 1500);
   }
@@ -867,22 +810,19 @@ function playSound(name){
   }catch(e){}
 }
 
-// Pronuncia texto em francês com voz masculina (palavras e frases)
+// Pronuncia texto de forma mais suave, clara e com controle de velocidade aprimorado
 function playFrenchTTS(text){
   try {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'fr-FR';
-    utterance.rate = state.audioSpeed;
+    utterance.rate = state.audioSpeed; // Mais suave e lento conforme configuração
     utterance.volume = 1;
-
-    // Força parâmetros de voz mais masculina (tom grave)
-    utterance.pitch = 0.7; // Mais grave = soa mais masculino
+    utterance.pitch = 0.85; // Tom equilibrado e agradável
 
     if (state.maleVoice) {
       utterance.voice = state.maleVoice;
     } else {
-      // Se ainda não carregou voz, tenta de novo
       const voices = window.speechSynthesis.getVoices();
       const fr = voices.find(v => v.lang.startsWith('fr'));
       if (fr) utterance.voice = fr;
@@ -921,7 +861,6 @@ function startGame(){
 }
 
 function setupCurrentQuestion(){
-  // Cancela qualquer fala TTS em andamento ao mudar de questão
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
   }
@@ -1008,7 +947,6 @@ function renderTopbar(){
 }
 
 function renderAudioControls(sentenceText){
-  // Escapa aspas e caracteres especiais para o onclick
   const safeText = sentenceText
     .replace(/\\/g, '\\\\')
     .replace(/'/g, "\\'")
@@ -1021,7 +959,7 @@ function renderAudioControls(sentenceText){
           <span>Velocidade</span>
           <span id="speed-val">${state.audioSpeed.toFixed(1)}x</span>
         </div>
-        <input type="range" class="speed-slider" min="0.5" max="2.0" step="0.1" value="${state.audioSpeed}" oninput="updateAudioSpeed(this.value)">
+        <input type="range" class="speed-slider" min="0.4" max="1.5" step="0.1" value="${state.audioSpeed}" oninput="updateAudioSpeed(this.value)">
       </div>
     </div>
   `;
@@ -1068,7 +1006,7 @@ function levelCompleteTemplate(){
       <p class="home-sub">Pontuação total: <strong>${formatScore(state.totalScore)} / 100</strong></p>
     </div>
     <div class="footer-space"></div>
-        <button class="btn btn-block" style="color:#ffffff !important;" onclick="${isLast ? 'goFinal()' : 'startNextLevel()'}">
+    <button class="btn btn-block" style="color:#ffffff !important;" onclick="${isLast ? 'goFinal()' : 'startNextLevel()'}">
       ${isLast ? 'ver resultado final' : 'continuar para o nível '+(lvl+1)}
     </button>
   `;
@@ -1104,7 +1042,6 @@ function blankSpanHtml(selIdx, options, correctWord, checked, num){
   const word = options[selIdx];
   let cls = 'blank blank-filled';
   if(checked) cls = 'blank ' + (word===correctWord ? 'blank-correct' : 'blank-wrong');
-  // Força texto branco inline (resolve problemas de herança de cor)
   return `<span class="${cls}" style="color:#ffffff !important;">${word}</span>`;
 }
 
@@ -1151,7 +1088,7 @@ function renderLevel1(){
         <div class="chip-row">${btns}</div>
       </div>
       <div class="footer-space"></div>
-            <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
+      <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
     `;
   } else {
     const trbtns = s.trOptions.map((o,i)=>{
@@ -1173,7 +1110,7 @@ function renderLevel1(){
         <div class="options-grid">${trbtns}</div>
       </div>
       <div class="footer-space"></div>
-            <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
+      <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
     `;
   }
 }
@@ -1260,7 +1197,7 @@ function renderLevel2(){
         <div class="chip-row">${btns2}</div>
       </div>
       <div class="footer-space"></div>
-            <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
+      <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
     `;
   } else {
     const trbtns = s.trOptions.map((o,i)=>{
@@ -1282,7 +1219,7 @@ function renderLevel2(){
         <div class="options-grid">${trbtns}</div>
       </div>
       <div class="footer-space"></div>
-            <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
+      <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
     `;
   }
 }
@@ -1336,15 +1273,12 @@ function checkL2Translation(){
 }
 
 /* =========================================================
-   NÍVEL 3 (DUAS ETAPAS: LACUNAS + TRADUÇÃO)
+   NÍVEL 3
    ========================================================= */
 function setupLevel3Question(idx){
   const q = level3Data[idx];
-  
   const lcOptions = shuffle(q.lcOptions);
   
-  // Teclado de letras: APENAS as letras da palavra-alvo (sem distratores),
-  // embaralhadas para o aluno montar a palavra clicando na ordem correta.
   const targetChars = q.montarWord.split('');
   const allChars = shuffle(targetChars);
   const tiles = allChars.map((char, id) => ({ id, char }));
@@ -1359,15 +1293,12 @@ function setupLevel3Question(idx){
     step: 'A',
     lcOptions: lcOptions,
     lcSelected: null,
-    
     montarTarget: q.montarWord,
     montarSlots: new Array(q.montarWord.length).fill(null),
     letterTiles: tiles,
-    
     checkedA: false,
     isCorrectLC: false,
     isCorrectMontar: false,
-
     trOptions: trOptions,
     trSelected: null,
     checkedB: false
@@ -1399,8 +1330,6 @@ function renderLevel3(){
       if(s.checkedA){
         cls = 'letter-box ' + (s.montarSlots.map(x=>x?x.char:'').join('') === q.montarWord ? 'correct' : 'wrong');
       }
-      // Preserva capitalização original. Sempre que a casa estiver
-      // preenchida (laranja, correta ou errada) o texto fica branco.
       const whiteStyle = slot ? ' style="color:#ffffff !important;"' : '';
       montarBoxesHtml += `<span class="${cls}" onclick="removeLetterSlot(${i})"${whiteStyle}>${char}</span>`;
     }
@@ -1448,13 +1377,13 @@ function renderLevel3(){
         <p class="chip-label">1. Escolha a palavra:</p>
         <div class="chip-row">${lcBtns}</div>
 
-        <p class="chip-label" style="margin-top:16px;">2. Monte a palavra letra por letra:</p>
+        <p class="chip-label" style="margin-top:10px;">2. Monte a palavra letra por letra:</p>
         <div class="chip-row">${letterTilesHtml}</div>
 
         ${gabaritoHtml}
       </div>
       <div class="footer-space"></div>
-            <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
+      <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
     `;
   } else {
     const trbtns = s.trOptions.map((o,i)=>{
@@ -1476,7 +1405,7 @@ function renderLevel3(){
         <div class="options-grid">${trbtns}</div>
       </div>
       <div class="footer-space"></div>
-            <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
+      <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
     `;
   }
 }
