@@ -397,7 +397,7 @@
     font-size: 18px;
     font-weight: 800;
     color: var(--text);
-    text-transform: uppercase;
+    /* NÃO forçar maiúsculas — preserva a capitalização original da palavra */
     cursor: pointer;
     user-select: none;
     transition: all .15s ease;
@@ -459,14 +459,31 @@
     *{ animation: none !important; transition: none !important; }
   }
 
-  /* ÚLTIMA CAMADA DE FORÇA: texto sempre branco nos elementos laranja */
+  /* ÚLTIMA CAMADA DE FORÇA ABSOLUTA: texto sempre BRANCO em botões e elementos preenchidos */
+  button,
   button.btn,
   button.option-card,
   button.chip-option,
   button.audio-btn,
   button.letter-tile,
   .letter-box.filled,
-  .blank.blank-filled {
+  .letter-box.correct,
+  .letter-box.wrong,
+  .blank.blank-filled,
+  .blank.blank-correct,
+  .blank.blank-wrong,
+  .chip-num {
+    color: #ffffff !important;
+  }
+
+  /* Garante também em todos os estados */
+  button:hover,
+  button:active,
+  button:focus,
+  button:disabled,
+  button.selected,
+  button.correct,
+  button.wrong {
     color: #ffffff !important;
   }
 </style>
@@ -970,7 +987,7 @@ function renderAudioControls(sentenceText){
     .replace(/\n/g, ' ');
   return `
     <div class="audio-controls">
-      <button class="audio-btn" onclick="playFrenchTTS('${safeText}')">🔊 Ouvir Frase</button>
+      <button class="audio-btn" style="color:#ffffff !important;" onclick="playFrenchTTS('${safeText}')">🔊 Ouvir Frase</button>
       <div class="speed-control">
         <div class="speed-label">
           <span>Velocidade</span>
@@ -998,7 +1015,7 @@ function homeTemplate(){
       </div>
     </div>
     <div class="footer-space"></div>
-    <button class="btn btn-block" onclick="startGame()">começar</button>
+    <button class="btn btn-block" style="color:#ffffff !important;" onclick="startGame()">começar</button>
   `;
 }
 
@@ -1023,7 +1040,7 @@ function levelCompleteTemplate(){
       <p class="home-sub">Pontuação total: <strong>${formatScore(state.totalScore)} / 100</strong></p>
     </div>
     <div class="footer-space"></div>
-    <button class="btn btn-block" onclick="${isLast ? 'goFinal()' : 'startNextLevel()'}">
+        <button class="btn btn-block" style="color:#ffffff !important;" onclick="${isLast ? 'goFinal()' : 'startNextLevel()'}">
       ${isLast ? 'ver resultado final' : 'continuar para o nível '+(lvl+1)}
     </button>
   `;
@@ -1050,7 +1067,7 @@ function finalTemplate(){
       </div>
     </div>
     <div class="footer-space"></div>
-    <button class="btn btn-block" onclick="resetGame()">jogar novamente</button>
+    <button class="btn btn-block" style="color:#ffffff !important;" onclick="resetGame()">jogar novamente</button>
   `;
 }
 
@@ -1059,7 +1076,8 @@ function blankSpanHtml(selIdx, options, correctWord, checked, num){
   const word = options[selIdx];
   let cls = 'blank blank-filled';
   if(checked) cls = 'blank ' + (word===correctWord ? 'blank-correct' : 'blank-wrong');
-  return `<span class="${cls}">${word}</span>`;
+  // Força texto branco inline (resolve problemas de herança de cor)
+  return `<span class="${cls}" style="color:#ffffff !important;">${word}</span>`;
 }
 
 /* =========================================================
@@ -1105,7 +1123,7 @@ function renderLevel1(){
         <div class="chip-row">${btns}</div>
       </div>
       <div class="footer-space"></div>
-      <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
+            <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
     `;
   } else {
     const trbtns = s.trOptions.map((o,i)=>{
@@ -1127,7 +1145,7 @@ function renderLevel1(){
         <div class="options-grid">${trbtns}</div>
       </div>
       <div class="footer-space"></div>
-      <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
+            <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
     `;
   }
 }
@@ -1214,7 +1232,7 @@ function renderLevel2(){
         <div class="chip-row">${btns2}</div>
       </div>
       <div class="footer-space"></div>
-      <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
+            <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
     `;
   } else {
     const trbtns = s.trOptions.map((o,i)=>{
@@ -1236,7 +1254,7 @@ function renderLevel2(){
         <div class="options-grid">${trbtns}</div>
       </div>
       <div class="footer-space"></div>
-      <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
+            <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
     `;
   }
 }
@@ -1340,7 +1358,7 @@ function renderLevel3(){
       const word = s.lcOptions[s.lcSelected];
       let cls = 'blank blank-filled';
       if(s.checkedA) cls = 'blank ' + (word === q.lcWord ? 'blank-correct' : 'blank-wrong');
-      lcSpanHtml = `<span class="${cls}">${word}</span>`;
+      lcSpanHtml = `<span class="${cls}" style="color:#ffffff !important;">${word}</span>`;
     }
 
     let montarBoxesHtml = `<span class="word-target-box">`;
@@ -1352,7 +1370,9 @@ function renderLevel3(){
       if(s.checkedA){
         cls = 'letter-box ' + (s.montarSlots.map(x=>x?x.char:'').join('') === q.montarWord ? 'correct' : 'wrong');
       }
-      montarBoxesHtml += `<span class="${cls}" onclick="removeLetterSlot(${i})">${char}</span>`;
+      // Preserva capitalização original + força texto branco
+      const whiteStyle = slot ? ' style="color:#ffffff !important;"' : '';
+      montarBoxesHtml += `<span class="${cls}" onclick="removeLetterSlot(${i})"${whiteStyle}>${char}</span>`;
     }
     montarBoxesHtml += `</span>`;
 
@@ -1368,13 +1388,13 @@ function renderLevel3(){
       } else if(i === s.lcSelected){
         cls += ' selected';
       }
-      return `<button class="${cls}" ${s.checkedA?'disabled':''} onclick="selectL3LCOption(${i})">${opt}</button>`;
+      return `<button class="${cls}" style="color:#ffffff !important;" ${s.checkedA?'disabled':''} onclick="selectL3LCOption(${i})">${opt}</button>`;
     }).join('');
 
     const letterTilesHtml = s.letterTiles.map((t) => {
       const isUsed = s.montarSlots.some(slot => slot && slot.id === t.id);
       const dis = isUsed || s.checkedA ? 'disabled' : '';
-      return `<button class="letter-tile ${dis}" onclick="addLetterSlot(${t.id})">${t.char}</button>`;
+      return `<button class="letter-tile ${dis}" style="color:#ffffff !important;" onclick="addLetterSlot(${t.id})">${t.char}</button>`;
     }).join('');
 
     const gabaritoHtml = (s.checkedA && (!s.isCorrectLC || !s.isCorrectMontar))
@@ -1404,7 +1424,7 @@ function renderLevel3(){
         ${gabaritoHtml}
       </div>
       <div class="footer-space"></div>
-      <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
+            <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
     `;
   } else {
     const trbtns = s.trOptions.map((o,i)=>{
@@ -1426,7 +1446,7 @@ function renderLevel3(){
         <div class="options-grid">${trbtns}</div>
       </div>
       <div class="footer-space"></div>
-      <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
+            <button class="btn btn-block" style="color:#ffffff !important;" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
     `;
   }
 }
