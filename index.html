@@ -230,7 +230,7 @@
     font-size:14px;
   }
 
-  /* CARDS DE QUESTÕES (Centralização Organizada) */
+  /* CARDS DE QUESTÕES */
   .question-card{
     background: var(--card);
     border: 2px solid var(--border);
@@ -386,7 +386,7 @@
   .chip-option.correct{ border-color: var(--green-correct-dark); background: var(--green-correct); color:#ffffff !important; }
   .chip-option.wrong{ border-color: var(--vermelho-dark); background: var(--vermelho); color:#ffffff !important; }
 
-  /* COMPONENTES EXCLUSIVOS DO NÍVEL 3 (Ajustados para não estourar a tela) */
+  /* COMPONENTES DO NÍVEL 3 */
   .word-target-box {
     display: inline-flex;
     flex-wrap: wrap;
@@ -716,9 +716,9 @@ const state = {
   qIndex: 0,
   totalScore: 0,
   levelScores: {1:0, 2:0, 3:0},
-  audioSpeed: 0.8, /* Ajustado para mais suave e lento */
+  audioSpeed: 0.8,
   voices: [],
-  maleVoice: null,
+  femaleVoice: null,
   l1: null,
   l2: null,
   l3: null
@@ -739,7 +739,7 @@ function formatScore(n){
 }
 
 /* =========================================================
-   SISTEMA DE ÁUDIO E SPEECH MAIS SUAVE
+   SISTEMA DE ÁUDIO E SPEECH (VOZ FEMININA SUAVE E NEURAL)
    ========================================================= */
 const SOUND_FILES = {
   click: 'click.mp3',
@@ -755,49 +755,67 @@ function initVoices() {
   if ('speechSynthesis' in window) {
     const updateVoices = () => {
       state.voices = window.speechSynthesis.getVoices();
+      
       const frVoices = state.voices.filter(v => 
-        v.lang.toLowerCase().startsWith('fr') || 
-        v.lang.toLowerCase().includes('fr-fr') ||
-        v.lang.toLowerCase().includes('fr-ca')
+        v.lang.toLowerCase().startsWith('fr')
       );
 
-      const maleNames = [
-        'thomas', 'nicolas', 'paul', 'claude', 'henri', 'jacques', 'pierre',
-        'françois', 'francois', 'male', 'homme', 'man',
-        'microsoft claude', 'microsoft paul', 'microsoft henri',
-        'google français', 'google francais'
+      // Prioridade: Vozes neurais e femininas mais suaves do Google, Microsoft e Apple
+      const preferredFemaleVoices = [
+        // --- GOOGLE (Android, Chrome, ChromeOS) ---
+        'fr-fr-x-vcf-local',      // Neural HD local (Google)
+        'fr-fr-x-fra-network',    // Neural de alta fidelidade em nuvem (Google)
+        'fr-fr-x-frd-network',    // Variante suave Google Network
+        'google français',        // Nome padrão de voz suave no Chrome
+        'google french',
+        'fr-fr-language',
+        
+        // --- MICROSOFT (Edge, Windows) ---
+        'microsoft denise',
+        'microsoft hortense',
+        'microsoft julie',
+        'microsoft pauline',
+        'microsoft francine',
+        
+        // --- APPLE (Safari, iOS, macOS) ---
+        'amélie',
+        'audrey',
+        'chantal',
+        'aurelie',
+        
+        // --- TERMOS GENÉRICOS ---
+        'female',
+        'femme'
       ];
 
-      const femaleNames = [
-        'amélie', 'amelie', 'julie', 'hortense', 'marie', 'claire', 'audrey',
-        'female', 'femme', 'woman', ' Denise', 'denise'
-      ];
+      let chosen = null;
 
-      let chosen = frVoices.find(v => {
-        const n = v.name.toLowerCase();
-        return maleNames.some(m => n.includes(m)) && !femaleNames.some(f => n.includes(f));
-      });
+      for (const pref of preferredFemaleVoices) {
+        chosen = frVoices.find(v => v.name.toLowerCase().includes(pref));
+        if (chosen) break;
+      }
 
+      // Exclui vozes masculinas conhecidas se não houver correspondência exata
       if (!chosen) {
         chosen = frVoices.find(v => {
           const n = v.name.toLowerCase();
-          return !femaleNames.some(f => n.includes(f));
+          return !n.includes('male') && 
+                 !n.includes('homme') && 
+                 !n.includes('claude') && 
+                 !n.includes('henri') && 
+                 !n.includes('paul');
         });
       }
 
-      if (!chosen) {
-        chosen = frVoices[0] || null;
-      }
-
-      state.maleVoice = chosen;
+      state.femaleVoice = chosen || frVoices[0] || null;
     };
 
     updateVoices();
     if (window.speechSynthesis.onvoiceschanged !== undefined) {
       window.speechSynthesis.onvoiceschanged = updateVoices;
     }
-    setTimeout(updateVoices, 500);
-    setTimeout(updateVoices, 1500);
+    setTimeout(updateVoices, 300);
+    setTimeout(updateVoices, 1000);
   }
 }
 
@@ -810,18 +828,19 @@ function playSound(name){
   }catch(e){}
 }
 
-// Pronuncia texto de forma mais suave, clara e com controle de velocidade aprimorado
 function playFrenchTTS(text){
   try {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'fr-FR';
-    utterance.rate = state.audioSpeed; // Mais suave e lento conforme configuração
+    
+    // Parâmetros para garantir uma fala suave e natural
+    utterance.rate = state.audioSpeed; 
+    utterance.pitch = 1.08;            // Tom levemente elevado para suavizar a entonação
     utterance.volume = 1;
-    utterance.pitch = 0.85; // Tom equilibrado e agradável
 
-    if (state.maleVoice) {
-      utterance.voice = state.maleVoice;
+    if (state.femaleVoice) {
+      utterance.voice = state.femaleVoice;
     } else {
       const voices = window.speechSynthesis.getVoices();
       const fr = voices.find(v => v.lang.startsWith('fr'));
