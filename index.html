@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* Fonte Feather-Bold */
   @font-face {
     font-family: 'Feather Bold';
     src: url('fonts/Feather-Bold.ttf') format('truetype');
@@ -17,7 +16,6 @@
   }
 
   :root{
-    /* Paleta de Cores */
     --rosa: #F2A7AD;
     --laranja-escuro: #EF7211;
     --azul-claro: #C2EDF2;
@@ -25,7 +23,6 @@
     --laranja-salmao: #F2B28D;
     --vermelho: #D93636;
 
-    /* Sombras e Estados */
     --laranja-dark: #C95C08;
     --vermelho-dark: #B02626;
     --azul-dark: #8EC2C9;
@@ -178,7 +175,7 @@
   }
   .chip-num{
     background: var(--rosa);
-    color:#fff !important;
+    color:#ffffff !important;
     width:28px; height:28px;
     border-radius:50%;
     display:flex; align-items:center; justify-content:center;
@@ -303,10 +300,10 @@
   .option-card.wrong{ border-color: var(--vermelho-dark); background: var(--vermelho); color: #ffffff !important; }
   .option-card:disabled{ cursor:default; }
 
-  /* LACUNAS (NÍVEIS 1 e 2) */
+  /* LACUNAS */
   .blank{
     display:inline-block;
-    min-width: 36px;
+    min-width: 45px;
     text-align:center;
     padding: 2px 10px;
     margin: 0 2px;
@@ -358,7 +355,7 @@
   .letter-box {
     width: 32px;
     height: 38px;
-    background: #E5E7EB; /* Cor cinza solicitada */
+    background: #E5E7EB;
     border: 2px solid #D1D5DB;
     border-radius: 8px;
     display: flex;
@@ -439,7 +436,7 @@
 
 <script>
 /* =========================================================
-   DADOS DOS NÍVEIS COM AUDIOS MAPEADOS
+   DADOS DOS NÍVEIS COM ÁUDIOS E DISTRATORES DE TRADUÇÃO
    ========================================================= */
 
 const level1Data = [
@@ -578,9 +575,9 @@ const level2Data = [
     transWrong:["O professor vai corrigir os erros no quadro.","O aluno vai corrigir os erros no caderno."] }
 ];
 
-/* GABARITO E AUDIOS DO NÍVEL 3 */
 const level3Data = [
   { pt:"As crianças entram na sala dos professores com o professor.",
+    transWrong:["As crianças entram na biblioteca com o professor.","Os professores entram na sala de aula com os alunos."],
     frFull:"Les enfants entrent dans la salle des maîtres avec l'enseignant.",
     audio:"/audios-monecole/Les enfants entrent, dans, la, salle, des, maîtres, avec, l'enseignant.mp3",
     lcWord:"la salle des maîtres", lcOptions:["la salle des maîtres", "la bibliothèque", "le gymnase"],
@@ -588,6 +585,7 @@ const level3Data = [
     template:"Les enfants entrent dans [LC] avec [MONTAR]." },
 
   { pt:"Hoje, a gente vai estudar o livro de história na biblioteca.",
+    transWrong:["Hoje, a gente vai ler o caderno de matemática na biblioteca.","Amanhã, a gente vai estudar o livro de história na sala."],
     frFull:"Aujourd'hui, on va étudier le livre d'histoire à la bibliothèque.",
     audio:"/audios-monecole/Aujourd'hui, on va étudier, le, livre, d'histoire à, la, bibliothèque.mp3",
     lcWord:"livre", lcOptions:["livre", "cahier", "stylos"],
@@ -595,6 +593,7 @@ const level3Data = [
     template:"Aujourd'hui, on va étudier le [LC] d'histoire à la [MONTAR]." },
 
   { pt:"Ele coloca um computador grande perto da mesa.",
+    transWrong:["Ele coloca um computador pequeno embaixo da mesa.","Ela coloca um livro grande perto da cadeira."],
     frFull:"Il installe un grand ordinateur près de la table.",
     audio:"/audios-monecole/Il installe, un grand ordinateur, près, de, la, table.mp3",
     lcWord:"table", lcOptions:["table", "chaise", "trousse"],
@@ -602,6 +601,7 @@ const level3Data = [
     template:"Il installe un grand [MONTAR] près de la [LC]." },
 
   { pt:"Às vezes, as crianças visitam a secretaria para perguntar a hora.",
+    transWrong:["Às vezes, os alunos entram na secretaria para pegar o papel.","Sempre, as crianças visitam a diretoria para pedir ajuda."],
     frFull:"Parfois, les enfants visitent le secrétariat pour demander l'heure.",
     audio:"/audios-monecole/Parfois, les enfants visitent, le, secrétariat, pour, demander, l'heure.mp3",
     lcWord:"visitent", lcOptions:["visitent", "quittent", "habitent"],
@@ -609,6 +609,7 @@ const level3Data = [
     template:"Parfois, les enfants [LC] le [MONTAR] pour demander l'heure." },
 
   { pt:"As crianças adoram ler um livro depois da refeição.",
+    transWrong:["As crianças odeiam ler um livro depois da refeição.","Os alunos adoram escrever uma história antes do recreio."],
     frFull:"Les enfants adorent lire un livre après le repas.",
     audio:"/audios-monecole/Les enfants adorent, lire, un livre, après, le, repas.mp3",
     lcWord:"adorent", lcOptions:["adorent", "détestent", "oubliant"],
@@ -616,6 +617,7 @@ const level3Data = [
     template:"Les enfants [LC] lire un livre après le [MONTAR]." },
 
   { pt:"Os meninos e as meninas vão aos banheiros durante o recreio.",
+    transWrong:["Os meninos e as meninas vão à cantina durante o recreio.","Os professores vão aos banheiros depois da aula."],
     frFull:"Les garçons et les filles vont aux toilettes pendant la récréation.",
     audio:"/audios-monecole/Les garçons et, les filles vont aux toilettes, pendant, la, récréation.mp3",
     lcWord:"filles", lcOptions:["filles", "mères", "sœurs"],
@@ -623,6 +625,7 @@ const level3Data = [
     template:"Les garçons et les [LC] vont aux [MONTAR] pendant la récréation." },
 
   { pt:"O menino escreve na agenda com um giz de cera.",
+    transWrong:["O menino desenha no caderno com uma canetinha.","A menina escreve na agenda com um lápis preto."],
     frFull:"Le garçon écrit dans l'agenda avec un crayon de cire.",
     audio:"/audios-monecole/Le, garçon écrit, dans, l'agenda, avec, un crayon, de, cire.mp3",
     lcWord:"écrit", lcOptions:["écrit", "lit", "dessine"],
@@ -630,6 +633,7 @@ const level3Data = [
     template:"Le garçon [LC] dans [MONTAR] avec un crayon de cire." },
 
   { pt:"As meninas gostam de brincar com os amigos perto do ginásio.",
+    transWrong:["As meninas gostam de correr com os amigos perto da sala.","Os meninos gostam de brincar com os amigos longe do ginásio."],
     frFull:"Les filles aiment jouer avec les amis près du gymnase.",
     audio:"/audios-monecole/Les filles aiment jouer, avec, les amis, près, du, gymnase.mp3",
     lcWord:"aiment", lcOptions:["aiment", "marchent", "mangent"],
@@ -637,6 +641,7 @@ const level3Data = [
     template:"Les filles [LC] jouer avec les amis près du [MONTAR]." },
 
   { pt:"Sophie tem um marca-texto amarelo, mas Lucas prefere a canetinha preta.",
+    transWrong:["Sophie tem uma caneta amarela, mas Lucas prefere o marca-texto preto.","Sophie tem um marca-texto azul, mas Lucas prefere a canetinha vermelha."],
     frFull:"Sophie a un surligneur jaune mais Lucas préfère le feutre noir.",
     audio:"/audios-monecole/Sophie, a, un surligneur, jaune, mais, Lucas, préfère, le, feutre, noir.mp3",
     lcWord:"surligneur", lcOptions:["surligneur", "classeur", "cahier"],
@@ -644,6 +649,7 @@ const level3Data = [
     template:"Sophie a un [LC] jaune mais Lucas préfère le [MONTAR] noir." },
 
   { pt:"Cada criança coloca a régua e a borracha sobre a mesa.",
+    transWrong:["Cada criança pega a régua e o estojo sobre a mesa.","Cada aluno coloca a borracha e o lápis na mochila."],
     frFull:"Chaque enfant pose la règle et la gomme sur la table.",
     audio:"/audios-monecole/Chaque enfant pose, la, règle, et, la, gomme, sur, la, table.mp3",
     lcWord:"pose", lcOptions:["pose", "prend", "cherche"],
@@ -662,6 +668,8 @@ const state = {
   levelScores: {1:0, 2:0, 3:0},
   audioSpeed: 1.0,
   currentAudio: null,
+  voices: [],
+  maleVoice: null,
   l1: null,
   l2: null,
   l3: null
@@ -682,7 +690,7 @@ function formatScore(n){
 }
 
 /* =========================================================
-   SISTEMA DE ÁUDIO E VOZ (TTS EM FRANCÊS)
+   SISTEMA DE ÁUDIO E VOZ MASCULINA (TTS EM FRANCÊS)
    ========================================================= */
 const SOUND_FILES = {
   click: 'click.mp3',
@@ -693,6 +701,25 @@ const SOUND_FILES = {
   win: 'win01.mp3',
   losing: 'losing.mp3'
 };
+
+function initVoices() {
+  if ('speechSynthesis' in window) {
+    const updateVoices = () => {
+      state.voices = window.speechSynthesis.getVoices();
+      // Procura voz masculina em francês
+      const frVoices = state.voices.filter(v => v.lang.startsWith('fr'));
+      state.maleVoice = frVoices.find(v => 
+        v.name.toLowerCase().includes('male') || 
+        v.name.toLowerCase().includes('thomas') || 
+        v.name.toLowerCase().includes('nicolas') || 
+        v.name.toLowerCase().includes('paul') ||
+        v.name.toLowerCase().includes('claude')
+      ) || frVoices[0] || null;
+    };
+    updateVoices();
+    window.speechSynthesis.onvoiceschanged = updateVoices;
+  }
+}
 
 function playSound(name){
   try{
@@ -708,7 +735,14 @@ function playFrenchTTS(text){
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'fr-FR';
-    utterance.rate = 0.9;
+    utterance.rate = state.audioSpeed; // Aplica a velocidade selecionada no slider
+    
+    if (state.maleVoice) {
+      utterance.voice = state.maleVoice;
+    }
+    // Pitch ligeiramente mais grave para enfatizar tom masculino se o sistema não garantir a voz
+    utterance.pitch = 0.85;
+    
     window.speechSynthesis.speak(utterance);
   } catch(e) {}
 }
@@ -720,13 +754,19 @@ function playSentenceAudio(url){
     }
     state.currentAudio = new Audio(url);
     state.currentAudio.playbackRate = state.audioSpeed;
-    state.currentAudio.play().catch(err => {
-      console.log("Audio file error, falling back to TTS:", err);
-      // Fallback para TTS se o arquivo não estiver disponível localmente
-      const q = getCurrentQuestionData();
-      if(q && q.frFull) playFrenchTTS(q.frFull);
-    });
-  } catch(e) {}
+    
+    const playPromise = state.currentAudio.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(err => {
+        // Fallback automático para TTS se o arquivo de áudio falhar ou não existir
+        const q = getCurrentQuestionData();
+        if(q && q.frFull) playFrenchTTS(q.frFull);
+      });
+    }
+  } catch(e) {
+    const q = getCurrentQuestionData();
+    if(q && q.frFull) playFrenchTTS(q.frFull);
+  }
 }
 
 function updateAudioSpeed(val){
@@ -868,7 +908,7 @@ function homeTemplate(){
       <div class="level-preview">
         <div class="level-chip"><span class="chip-num">1</span> Complete a Lacuna <span class="chip-pts">20 pts</span></div>
         <div class="level-chip"><span class="chip-num">2</span> Lacunas Duplas <span class="chip-pts">35 pts</span></div>
-        <div class="level-chip"><span class="chip-num">3</span> Escolha & Monte a Palavra <span class="chip-pts">45 pts</span></div>
+        <div class="level-chip"><span class="chip-num">3</span> Monte & Traduza <span class="chip-pts">45 pts</span></div>
       </div>
     </div>
     <div class="footer-space"></div>
@@ -920,7 +960,7 @@ function finalTemplate(){
       <div class="breakdown">
         <div class="breakdown-row"><span>Nível 1 — Lacuna</span><span>${formatScore(state.levelScores[1])} / 20</span></div>
         <div class="breakdown-row"><span>Nível 2 — Lacunas</span><span>${formatScore(state.levelScores[2])} / 35</span></div>
-        <div class="breakdown-row"><span>Nível 3 — Escolha & Monte</span><span>${formatScore(state.levelScores[3])} / 45</span></div>
+        <div class="breakdown-row"><span>Nível 3 — Monte & Traduza</span><span>${formatScore(state.levelScores[3])} / 45</span></div>
       </div>
     </div>
     <div class="footer-space"></div>
@@ -929,7 +969,7 @@ function finalTemplate(){
 }
 
 function blankSpanHtml(selIdx, options, correctWord, checked, num){
-  if(selIdx===null) return `<span class="blank">${num}</span>`;
+  if(selIdx===null) return `<span class="blank">___</span>`;
   const word = options[selIdx];
   let cls = 'blank blank-filled';
   if(checked) cls = 'blank ' + (word===correctWord ? 'blank-correct' : 'blank-wrong');
@@ -1006,7 +1046,13 @@ function renderLevel1(){
   }
 }
 
-function selectL1Blank(i){ playSound('click'); state.l1.bSelected=i; renderLevel1(); }
+function selectL1Blank(i){ 
+  playSound('click'); 
+  state.l1.bSelected=i; 
+  playFrenchTTS(state.l1.bOptions[i]);
+  renderLevel1(); 
+}
+
 function checkL1Blank(){
   const q = level1Data[state.qIndex];
   const s = state.l1;
@@ -1111,8 +1157,13 @@ function renderLevel2(){
 
 function selectL2Blank(num, i){
   playSound('click');
-  if(num===1) state.l2.b1Selected=i;
-  else state.l2.b2Selected=i;
+  if(num===1) {
+    state.l2.b1Selected=i;
+    playFrenchTTS(state.l2.b1Options[i]);
+  } else {
+    state.l2.b2Selected=i;
+    playFrenchTTS(state.l2.b2Options[i]);
+  }
   renderLevel2();
 }
 
@@ -1153,32 +1204,41 @@ function checkL2Translation(){
 }
 
 /* =========================================================
-   NÍVEL 3 — ESTRUTURA RESTRUTURADA (LC + MONTAR)
+   NÍVEL 3 (DUAS ETAPAS: LACUNAS + TRADUÇÃO)
    ========================================================= */
 function setupLevel3Question(idx){
   const q = level3Data[idx];
   
-  // Opções para a lacuna clicável (LC)
   const lcOptions = shuffle(q.lcOptions);
   
-  // Criação dos tiles de letras para a palavra MONTAR
   const targetChars = q.montarWord.split('');
   const extraChars = shuffle(['a','e','i','o','u','r','s','t','l','n']).slice(0, 3);
   const allChars = shuffle([...targetChars, ...extraChars]);
-
   const tiles = allChars.map((char, id) => ({ id, char }));
 
+  // Opções de tradução (1 correta + 2 distratoras)
+  const trOptions = shuffle([
+    { text: q.pt, correct: true },
+    { text: q.transWrong[0], correct: false },
+    { text: q.transWrong[1], correct: false }
+  ]);
+
   state.l3 = {
+    step: 'A', // Step 'A' = Lacunas, Step 'B' = Tradução
     lcOptions: lcOptions,
     lcSelected: null,
     
     montarTarget: q.montarWord,
-    montarSlots: new Array(q.montarWord.length).fill(null), // guarda id da tile ou char
+    montarSlots: new Array(q.montarWord.length).fill(null),
     letterTiles: tiles,
     
-    checked: false,
+    checkedA: false,
     isCorrectLC: false,
-    isCorrectMontar: false
+    isCorrectMontar: false,
+
+    trOptions: trOptions,
+    trSelected: null,
+    checkedB: false
   };
 }
 
@@ -1187,98 +1247,117 @@ function renderLevel3(){
   const s = state.l3;
   const content = document.getElementById('content');
 
-  // Construção visual do span de LC (Clicar e Escolher)
-  let lcSpanHtml = '';
-  if(s.lcSelected === null){
-    lcSpanHtml = `<span class="blank">[ LC ]</span>`;
+  if (s.step === 'A') {
+    // ESTÁGIO 1: LACUNAS
+    let lcSpanHtml = '';
+    if(s.lcSelected === null){
+      lcSpanHtml = `<span class="blank">___</span>`;
+    } else {
+      const word = s.lcOptions[s.lcSelected];
+      let cls = 'blank blank-filled';
+      if(s.checkedA) cls = 'blank ' + (word === q.lcWord ? 'blank-correct' : 'blank-wrong');
+      lcSpanHtml = `<span class="${cls}">${word}</span>`;
+    }
+
+    let montarBoxesHtml = `<span class="word-target-box">`;
+    for(let i = 0; i < q.montarWord.length; i++){
+      const slot = s.montarSlots[i];
+      let char = slot ? slot.char : '';
+      let cls = 'letter-box';
+      if(slot) cls += ' filled';
+      if(s.checkedA){
+        cls = 'letter-box ' + (s.montarSlots.map(x=>x?x.char:'').join('') === q.montarWord ? 'correct' : 'wrong');
+      }
+      montarBoxesHtml += `<span class="${cls}" onclick="removeLetterSlot(${i})">${char}</span>`;
+    }
+    montarBoxesHtml += `</span>`;
+
+    let sentenceHtml = q.template
+      .replace('[LC]', lcSpanHtml)
+      .replace('[MONTAR]', montarBoxesHtml);
+
+    const lcBtns = s.lcOptions.map((opt, i) => {
+      let cls = 'chip-option';
+      if(s.checkedA){
+        if(opt === q.lcWord) cls += ' correct';
+        else if(i === s.lcSelected) cls += ' wrong';
+      } else if(i === s.lcSelected){
+        cls += ' selected';
+      }
+      return `<button class="${cls}" ${s.checkedA?'disabled':''} onclick="selectL3LCOption(${i})">${opt}</button>`;
+    }).join('');
+
+    const letterTilesHtml = s.letterTiles.map((t) => {
+      const isUsed = s.montarSlots.some(slot => slot && slot.id === t.id);
+      const dis = isUsed || s.checkedA ? 'disabled' : '';
+      return `<button class="letter-tile ${dis}" onclick="addLetterSlot(${t.id})">${t.char}</button>`;
+    }).join('');
+
+    const gabaritoHtml = (s.checkedA && (!s.isCorrectLC || !s.isCorrectMontar))
+      ? `<div class="gabarito"><strong>Frase Correta:</strong> ${q.frFull}</div>`
+      : '';
+
+    const isFilledMontar = s.montarSlots.every(slot => slot !== null);
+    const isReady = s.lcSelected !== null && isFilledMontar;
+
+    const btnLabel = s.checkedA ? 'continuar para tradução' : 'verificar lacunas';
+    const btnOnclick = s.checkedA ? 'advanceL3Step()' : 'checkL3Blanks()';
+    const btnDisabled = !s.checkedA && !isReady;
+
+    content.innerHTML = `
+      <div class="question-card">
+        <p class="instruction">Preencha as lacunas na frase</p>
+        ${renderAudioControls(q.audio)}
+        
+        <p class="fr-sentence">${sentenceHtml}</p>
+
+        <p class="chip-label">1. Escolha a palavra:</p>
+        <div class="chip-row">${lcBtns}</div>
+
+        <p class="chip-label" style="margin-top:16px;">2. Monte a palavra letra por letra:</p>
+        <div class="chip-row">${letterTilesHtml}</div>
+
+        ${gabaritoHtml}
+      </div>
+      <div class="footer-space"></div>
+      <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
+    `;
   } else {
-    const word = s.lcOptions[s.lcSelected];
-    let cls = 'blank blank-filled';
-    if(s.checked) cls = 'blank ' + (word === q.lcWord ? 'blank-correct' : 'blank-wrong');
-    lcSpanHtml = `<span class="${cls}">${word}</span>`;
+    // ESTÁGIO 2: TRADUÇÃO
+    const trbtns = s.trOptions.map((o,i)=>{
+      let cls='option-card';
+      if(s.checkedB){ if(o.correct) cls+=' correct'; else if(i===s.trSelected) cls+=' wrong'; }
+      else if(i===s.trSelected){ cls+=' selected'; }
+      return `<button class="${cls}" ${s.checkedB?'disabled':''} onclick="selectL3Translation(${i})">${o.text}</button>`;
+    }).join('');
+
+    const btnLabel = s.checkedB ? 'próxima questão' : 'verificar tradução';
+    const btnOnclick = s.checkedB ? 'nextQuestion()' : 'checkL3Translation()';
+    const btnDisabled = !s.checkedB && s.trSelected===null;
+
+    content.innerHTML = `
+      <div class="question-card">
+        <p class="instruction">Escolha a tradução correta</p>
+        ${renderAudioControls(q.audio)}
+        <p class="fr-sentence">${q.frFull}</p>
+        <div class="options-grid">${trbtns}</div>
+      </div>
+      <div class="footer-space"></div>
+      <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
+    `;
   }
-
-  // Construção visual dos quadrados de MONTAR (Letra por Letra)
-  let montarBoxesHtml = `<span class="word-target-box">`;
-  for(let i = 0; i < q.montarWord.length; i++){
-    const slot = s.montarSlots[i];
-    let char = slot ? slot.char : '';
-    let cls = 'letter-box';
-    if(slot) cls += ' filled';
-    if(s.checked){
-      cls = 'letter-box ' + (s.montarSlots.map(x=>x?x.char:'').join('') === q.montarWord ? 'correct' : 'wrong');
-    }
-    montarBoxesHtml += `<span class="${cls}" onclick="removeLetterSlot(${i})">${char}</span>`;
-  }
-  montarBoxesHtml += `</span>`;
-
-  // Preenche o template com os elementos visuais
-  let sentenceHtml = q.template
-    .replace('[LC]', lcSpanHtml)
-    .replace('[MONTAR]', montarBoxesHtml);
-
-  // Botões de opção da Lacuna LC
-  const lcBtns = s.lcOptions.map((opt, i) => {
-    let cls = 'chip-option';
-    if(s.checked){
-      if(opt === q.lcWord) cls += ' correct';
-      else if(i === s.lcSelected) cls += ' wrong';
-    } else if(i === s.lcSelected){
-      cls += ' selected';
-    }
-    return `<button class="${cls}" ${s.checked?'disabled':''} onclick="selectL3LCOption(${i})">${opt}</button>`;
-  }).join('');
-
-  // Teclado de letras para MONTAR
-  const letterTilesHtml = s.letterTiles.map((t) => {
-    const isUsed = s.montarSlots.some(slot => slot && slot.id === t.id);
-    const dis = isUsed || s.checked ? 'disabled' : '';
-    return `<button class="letter-tile ${dis}" onclick="addLetterSlot(${t.id})">${t.char}</button>`;
-  }).join('');
-
-  const gabaritoHtml = (s.checked && (!s.isCorrectLC || !s.isCorrectMontar))
-    ? `<div class="gabarito"><strong>Solução:</strong> ${q.frFull}</div>`
-    : '';
-
-  const isFilledMontar = s.montarSlots.every(slot => slot !== null);
-  const isReady = s.lcSelected !== null && isFilledMontar;
-
-  const btnLabel = s.checked ? 'próxima questão' : 'verificar resposta';
-  const btnOnclick = s.checked ? 'nextQuestion()' : 'checkL3()';
-  const btnDisabled = !s.checked && !isReady;
-
-  content.innerHTML = `
-    <div class="question-card">
-      <p class="instruction">Traduza preenchendo as lacunas</p>
-      <div class="pt-sentence">${q.pt}</div>
-      ${renderAudioControls(q.audio)}
-      
-      <p class="fr-sentence">${sentenceHtml}</p>
-
-      <p class="chip-label">1. Escolha a palavra (LC):</p>
-      <div class="chip-row">${lcBtns}</div>
-
-      <p class="chip-label" style="margin-top:16px;">2. Monte a palavra letra por letra:</p>
-      <div class="chip-row">${letterTilesHtml}</div>
-
-      ${gabaritoHtml}
-    </div>
-    <div class="footer-space"></div>
-    <button class="btn btn-block" ${btnDisabled?'disabled':''} onclick="${btnOnclick}">${btnLabel}</button>
-  `;
 }
 
 function selectL3LCOption(index){
   playSound('click');
   state.l3.lcSelected = index;
-  // Pronúncia via Text-to-Speech (TTS) em francês da palavra clicada
   const word = state.l3.lcOptions[index];
   playFrenchTTS(word);
   renderLevel3();
 }
 
 function addLetterSlot(tileId){
-  if(state.l3.checked) return;
+  if(state.l3.checkedA) return;
   playSound('click');
   const emptyIndex = state.l3.montarSlots.findIndex(s => s === null);
   if(emptyIndex !== -1){
@@ -1289,7 +1368,7 @@ function addLetterSlot(tileId){
 }
 
 function removeLetterSlot(slotIndex){
-  if(state.l3.checked) return;
+  if(state.l3.checkedA) return;
   if(state.l3.montarSlots[slotIndex] !== null){
     playSound('click');
     state.l3.montarSlots[slotIndex] = null;
@@ -1297,10 +1376,10 @@ function removeLetterSlot(slotIndex){
   }
 }
 
-function checkL3(){
+function checkL3Blanks(){
   const q = level3Data[state.qIndex];
   const s = state.l3;
-  s.checked = true;
+  s.checkedA = true;
 
   const selectedLCWord = s.lcOptions[s.lcSelected];
   s.isCorrectLC = (selectedLCWord === q.lcWord);
@@ -1309,8 +1388,8 @@ function checkL3(){
   s.isCorrectMontar = (builtMontarWord === q.montarWord);
 
   let pts = 0;
-  if(s.isCorrectLC) pts += 2.0;
-  if(s.isCorrectMontar) pts += 2.5;
+  if(s.isCorrectLC) pts += 1.5;
+  if(s.isCorrectMontar) pts += 1.5;
 
   state.levelScores[3] += pts;
   state.totalScore += pts;
@@ -1323,7 +1402,37 @@ function checkL3(){
   renderLevel3();
 }
 
-window.onload = () => { render(); };
+function advanceL3Step(){
+  playSound('click');
+  state.l3.step = 'B';
+  renderLevel3();
+}
+
+function selectL3Translation(i){
+  playSound('click');
+  state.l3.trSelected = i;
+  renderLevel3();
+}
+
+function checkL3Translation(){
+  const s = state.l3;
+  s.checkedB = true;
+  const isCorrect = s.trOptions[s.trSelected].correct;
+  
+  if(isCorrect){
+    playSound('ok');
+    state.levelScores[3] += 1.5;
+    state.totalScore += 1.5;
+  } else {
+    playSound('falha');
+  }
+  renderLevel3();
+}
+
+window.onload = () => { 
+  initVoices();
+  render(); 
+};
 </script>
 </body>
 </html>
