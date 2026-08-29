@@ -120,7 +120,36 @@
     gap:16px;
   }
 
-  .btn, .option-card, .chip-option, .audio-btn, .letter-tile {
+  /* FORÇA TEXTO BRANCO EM TODOS OS ELEMENTOS LARANJA / BOTÕES */
+  .btn,
+  .option-card,
+  .chip-option,
+  .audio-btn,
+  .letter-tile,
+  .letter-box.filled,
+  .blank-filled,
+  .chip-num {
+    color: #ffffff !important;
+  }
+
+  .btn:hover,
+  .option-card:hover:not(:disabled),
+  .chip-option:hover:not(:disabled),
+  .audio-btn:hover,
+  .letter-tile:hover:not(.disabled) {
+    color: #ffffff !important;
+  }
+
+  .option-card.selected,
+  .chip-option.selected,
+  .option-card.correct,
+  .chip-option.correct,
+  .option-card.wrong,
+  .chip-option.wrong,
+  .letter-box.correct,
+  .letter-box.wrong,
+  .blank-correct,
+  .blank-wrong {
     color: #ffffff !important;
   }
 
@@ -429,6 +458,17 @@
   @media (prefers-reduced-motion: reduce){
     *{ animation: none !important; transition: none !important; }
   }
+
+  /* ÚLTIMA CAMADA DE FORÇA: texto sempre branco nos elementos laranja */
+  button.btn,
+  button.option-card,
+  button.chip-option,
+  button.audio-btn,
+  button.letter-tile,
+  .letter-box.filled,
+  .blank.blank-filled {
+    color: #ffffff !important;
+  }
 </style>
 </head>
 <body>
@@ -709,21 +749,67 @@ function initVoices() {
   if ('speechSynthesis' in window) {
     const updateVoices = () => {
       state.voices = window.speechSynthesis.getVoices();
-      const frVoices = state.voices.filter(v => v.lang.startsWith('fr') || v.lang.startsWith('fr-'));
-      // Prioriza vozes masculinas conhecidas (Chrome, Edge, Safari, etc.)
-      const maleKeywords = ['male', 'homme', 'thomas', 'nicolas', 'paul', 'claude', 'henri', 'jacques', 'pierre', 'google français', 'microsoft hortense', 'microsoft julie'];
-      // Hortense/Julie são femininas; melhor lista masculina:
-      const preferredMale = ['thomas', 'nicolas', 'paul', 'claude', 'henri', 'jacques', 'pierre', 'male', 'homme', 'françois', 'google français male'];
-      state.maleVoice = frVoices.find(v => {
-        const name = v.name.toLowerCase();
-        return preferredMale.some(k => name.includes(k)) && !name.includes('female') && !name.includes('femme');
-      }) || frVoices.find(v => {
-        const name = v.name.toLowerCase();
-        return !name.includes('female') && !name.includes('femme') && !name.includes('julie') && !name.includes('hortense') && !name.includes('amélie');
-      }) || frVoices[0] || null;
+      const frVoices = state.voices.filter(v => 
+        v.lang.toLowerCase().startsWith('fr') || 
+        v.lang.toLowerCase().includes('fr-fr') ||
+        v.lang.toLowerCase().includes('fr-ca')
+      );
+
+      // Nomes conhecidos de vozes MASCULINAS em francês (por navegador/SO)
+      // Chrome/Edge Windows: Microsoft Claude, Microsoft Paul, Microsoft Henri
+      // Chrome: Google français (neutro/masculino)
+      // Safari/macOS/iOS: Thomas, Nicolas
+      // Android: geralmente "fr-fr-x-frd-local" ou similares
+      const maleNames = [
+        'thomas', 'nicolas', 'paul', 'claude', 'henri', 'jacques', 'pierre',
+        'françois', 'francois', 'male', 'homme', 'man',
+        'microsoft claude', 'microsoft paul', 'microsoft henri',
+        'google français', 'google francais'
+      ];
+
+      // Nomes FEMININOS para excluir
+      const femaleNames = [
+        'amélie', 'amelie', 'julie', 'hortense', 'marie', 'claire', 'audrey',
+        'female', 'femme', 'woman', ' Denise', 'denise'
+      ];
+
+      // 1) Tenta achar voz masculina explícita
+      let chosen = frVoices.find(v => {
+        const n = v.name.toLowerCase();
+        return maleNames.some(m => n.includes(m)) && !femaleNames.some(f => n.includes(f));
+      });
+
+      // 2) Se não achar, pega qualquer voz francesa que NÃO seja feminina conhecida
+      if (!chosen) {
+        chosen = frVoices.find(v => {
+          const n = v.name.toLowerCase();
+          return !femaleNames.some(f => n.includes(f));
+        });
+      }
+
+      // 3) Fallback: primeira voz francesa disponível
+      if (!chosen) {
+        chosen = frVoices[0] || null;
+      }
+
+      state.maleVoice = chosen;
+
+      // Debug opcional (abre o console do navegador para ver)
+      if (chosen) {
+        console.log('Voz francesa selecionada (preferência masculina):', chosen.name, chosen.lang);
+      } else {
+        console.warn('Nenhuma voz francesa encontrada. Usando voz padrão do sistema.');
+      }
     };
+
     updateVoices();
-    window.speechSynthesis.onvoiceschanged = updateVoices;
+    // Alguns navegadores carregam as vozes de forma assíncrona
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = updateVoices;
+    }
+    // Força atualização após um tempo (Chrome às vezes atrasa)
+    setTimeout(updateVoices, 500);
+    setTimeout(updateVoices, 1500);
   }
 }
 
@@ -743,14 +829,24 @@ function playFrenchTTS(text){
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'fr-FR';
     utterance.rate = state.audioSpeed;
-    
+    utterance.volume = 1;
+
+    // Força parâmetros de voz mais masculina (tom grave)
+    utterance.pitch = 0.7; // Mais grave = soa mais masculino
+
     if (state.maleVoice) {
       utterance.voice = state.maleVoice;
+    } else {
+      // Se ainda não carregou voz, tenta de novo
+      const voices = window.speechSynthesis.getVoices();
+      const fr = voices.find(v => v.lang.startsWith('fr'));
+      if (fr) utterance.voice = fr;
     }
-    utterance.pitch = 0.85; // Tom de voz mais grave (masculino)
-    
+
     window.speechSynthesis.speak(utterance);
-  } catch(e) {}
+  } catch(e) {
+    console.warn('Erro ao reproduzir TTS:', e);
+  }
 }
 
 function updateAudioSpeed(val){
